@@ -1,6 +1,7 @@
 {
     "name": "miusuario/mi-api",
     "description": "API para gestión de cupones",
+    "type": "project",
     "authors": [
         {
             "name": "Harvey",
@@ -8,7 +9,8 @@
         }
     ],
     "require": {
-        "vlucas/phpdotenv": "^5.4"
+        "php": "8.3.7",
+        "slim/slim": "^4.0"
     },
     "autoload": {
         "psr-4": {

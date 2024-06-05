@@ -4,32 +4,27 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit5550c60aec25f3870a21e5eb4299c4e5
+class ComposerStaticInit5b69d021bf69429b815a0c0f2c19f439
 {
     public static $files = array (
-        '320cde22f66dd4f5d3fd621d3e88b98f' => __DIR__ . '/..' . '/symfony/polyfill-ctype/bootstrap.php',
-        '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
-        'a4a119a56e50fbb293281d9a48007e0e' => __DIR__ . '/..' . '/symfony/polyfill-php80/bootstrap.php',
+        '253c157292f75eb38082b5acb06f3f01' => __DIR__ . '/..' . '/nikic/fast-route/src/functions.php',
     );
 
     public static $prefixLengthsPsr4 = array (
         'S' => 
         array (
-            'Symfony\\Polyfill\\Php80\\' => 23,
-            'Symfony\\Polyfill\\Mbstring\\' => 26,
-            'Symfony\\Polyfill\\Ctype\\' => 23,
+            'Slim\\' => 5,
         ),
         'P' => 
         array (
-            'PhpOption\\' => 10,
+            'Psr\\Log\\' => 8,
+            'Psr\\Http\\Server\\' => 16,
+            'Psr\\Http\\Message\\' => 17,
+            'Psr\\Container\\' => 14,
         ),
-        'G' => 
+        'F' => 
         array (
-            'GrahamCampbell\\ResultType\\' => 26,
-        ),
-        'D' => 
-        array (
-            'Dotenv\\' => 7,
+            'FastRoute\\' => 10,
         ),
         'A' => 
         array (
@@ -38,29 +33,31 @@ class ComposerStaticInit5550c60aec25f3870a21e5eb4299c4e5
     );
 
     public static $prefixDirsPsr4 = array (
-        'Symfony\\Polyfill\\Php80\\' => 
+        'Slim\\' => 
         array (
-            0 => __DIR__ . '/..' . '/symfony/polyfill-php80',
+            0 => __DIR__ . '/..' . '/slim/slim/Slim',
         ),
-        'Symfony\\Polyfill\\Mbstring\\' => 
+        'Psr\\Log\\' => 
         array (
-            0 => __DIR__ . '/..' . '/symfony/polyfill-mbstring',
+            0 => __DIR__ . '/..' . '/psr/log/src',
         ),
-        'Symfony\\Polyfill\\Ctype\\' => 
+        'Psr\\Http\\Server\\' => 
         array (
-            0 => __DIR__ . '/..' . '/symfony/polyfill-ctype',
+            0 => __DIR__ . '/..' . '/psr/http-server-handler/src',
+            1 => __DIR__ . '/..' . '/psr/http-server-middleware/src',
         ),
-        'PhpOption\\' => 
+        'Psr\\Http\\Message\\' => 
         array (
-            0 => __DIR__ . '/..' . '/phpoption/phpoption/src/PhpOption',
+            0 => __DIR__ . '/..' . '/psr/http-message/src',
+            1 => __DIR__ . '/..' . '/psr/http-factory/src',
         ),
-        'GrahamCampbell\\ResultType\\' => 
+        'Psr\\Container\\' => 
         array (
-            0 => __DIR__ . '/..' . '/graham-campbell/result-type/src',
+            0 => __DIR__ . '/..' . '/psr/container/src',
         ),
-        'Dotenv\\' => 
+        'FastRoute\\' => 
         array (
-            0 => __DIR__ . '/..' . '/vlucas/phpdotenv/src',
+            0 => __DIR__ . '/..' . '/nikic/fast-route/src',
         ),
         'App\\' => 
         array (
@@ -69,20 +66,15 @@ class ComposerStaticInit5550c60aec25f3870a21e5eb4299c4e5
     );
 
     public static $classMap = array (
-        'Attribute' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/Attribute.php',
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
-        'PhpToken' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/PhpToken.php',
-        'Stringable' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/Stringable.php',
-        'UnhandledMatchError' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/UnhandledMatchError.php',
-        'ValueError' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/ValueError.php',
     );
 
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit5550c60aec25f3870a21e5eb4299c4e5::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit5550c60aec25f3870a21e5eb4299c4e5::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit5550c60aec25f3870a21e5eb4299c4e5::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit5b69d021bf69429b815a0c0f2c19f439::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit5b69d021bf69429b815a0c0f2c19f439::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit5b69d021bf69429b815a0c0f2c19f439::$classMap;
 
         }, null, ClassLoader::class);
     }
