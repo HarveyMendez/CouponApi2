@@ -3,7 +3,7 @@
         'name' => 'miusuario/mi-api',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => '81d40aab9d79bdc6173e2b55fd9afee0169e4c27',
+        'reference' => 'cb4c35d6d97b20dcdbc3a4ceb184354c31ae375d',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -13,7 +13,7 @@
         'miusuario/mi-api' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => '81d40aab9d79bdc6173e2b55fd9afee0169e4c27',
+            'reference' => 'cb4c35d6d97b20dcdbc3a4ceb184354c31ae375d',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
