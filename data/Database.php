@@ -1,40 +1,49 @@
 <?php
-require '../vendor/autoload.php';
 
-use Dotenv\Dotenv;
+$pdo=null;
+$host="harveyucr.cjo4uuomk4or.us-east-1.rds.amazonaws.com:3306";
+$user="UsuarioApi";
+$password="apiUser123";
+$bd="CouponDB";
 
-$dotenv = Dotenv::createImmutable(__DIR__ . '/../');
-$dotenv->load();
-
-class Database {
-    private $pdo;
-    private $host;
-    private $user;
-    private $password;
-    private $dbname;
-
-    public function __construct() {
-        $this->host = $_ENV['DB_HOST'];
-        $this->user = $_ENV['DB_USER'];
-        $this->password = $_ENV['DB_PASSWORD'];
-        $this->dbname = $_ENV['DB_NAME'];
-
-        try {
-            $this->pdo = new PDO("mysql:host=$this->host;dbname=$this->dbname", $this->user, $this->password);
-            $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        } catch (PDOException $e) {
-            die("Error! : No se pudo conectar a la base de datos $this->dbname<br/>Error! :" . $e->getMessage());
-        }
-    }
-
-    public function insertarEmpresa($nombre_empresa, $nombre_usuario, $direccion_fisica, $cedula, $fecha_creacion, $correo_electronico, $telefono, $contrasena, $ubicacion, $estado) {
-        try {
-            $stmt = $this->pdo->prepare("INSERT INTO Empresa (nombre_empresa, nombre_usuario, direccion_fisica, cedula, fecha_creacion, correo_electronico, telefono, contrasena, ubicacion, estado) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-            $stmt->execute([$nombre_empresa, $nombre_usuario, $direccion_fisica, $cedula, $fecha_creacion, $correo_electronico, $telefono, $contrasena, $ubicacion, $estado]);
-            return array("status" => "success", "message" => "Data inserted successfully");
-        } catch (PDOException $e) {
-            return array("status" => "error", "message" => "Data insertion failed: " . $e->getMessage());
-        }
+function conectar() {
+    try {
+        $GLOBALS['pdo'] = new PDO("mysql:host=".$GLOBALS['host'].";dbname=".$GLOBALS['bd']."", $GLOBALS['user'], $GLOBALS['password']);
+        $GLOBALS['pdo']->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    } catch(PDOException $e) {
+        print "Error! : No se pudo conectar a la BD ".$GLOBALS['bd']."<br/>";
+        print "Error! : ".$e->getMessage()."<br/>";
+        die();
     }
 }
+
+function desconectar(){
+
+    $GLOBALS['pdo']=null;
+
+}
+
+
+
+function metodoPost($query, $queryAutoIncrement){
+
+    try{
+        conectar();
+        $sentencia=$GLOBALS['pdo']->prepare($query);
+        $sentencia->execute();
+        $idAutoIncrement=metodoGet($queryAutoIncrement)->fetch(PDO::FETCH_ASSOC);
+        $resultado=array_merge($idAutoIncrement, $_POST);
+        $sentencia->closeCursor();
+        desconectar();
+        return $resultado;
+    }
+    catch(Exception $e){
+        die("Error: ".$e);
+    }
+    
+}
+
+
+
+
 ?>
