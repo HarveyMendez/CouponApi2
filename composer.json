@@ -1,6 +1,4 @@
 {
-    "prefer-stable": true,
-    "prefer-source": true,
     "name": "miusuario/mi-api",
     "description": "API para gestión de cupones",
     "authors": [
