@@ -1,9 +1,9 @@
 <?php return array(
     'root' => array(
         'name' => 'miusuario/mi-api',
-        'pretty_version' => '1.0.0+no-version-set',
-        'version' => '1.0.0.0',
-        'reference' => null,
+        'pretty_version' => 'dev-main',
+        'version' => 'dev-main',
+        'reference' => '82167497d248ae01ee3b2fb17cdf2dbd336b2a54',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -20,9 +20,9 @@
             'dev_requirement' => false,
         ),
         'miusuario/mi-api' => array(
-            'pretty_version' => '1.0.0+no-version-set',
-            'version' => '1.0.0.0',
-            'reference' => null,
+            'pretty_version' => 'dev-main',
+            'version' => 'dev-main',
+            'reference' => '82167497d248ae01ee3b2fb17cdf2dbd336b2a54',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
