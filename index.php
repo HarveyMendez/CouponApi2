@@ -19,7 +19,7 @@ if($_POST['METHOD']=='POST'){
     $query="insert into Empresa(nombre_empresa, nombre_usuario, direccion_fisica, cedula, fecha_creacion, correo_electronico, telefono, contrasena, ubicacion, estado) values('$nombre_empresa', '$nombre_usuario', '$direccion_fisica', '$cedula', '$fecha_creacion', '$correo_electronico', '$contrasenna', '$ubicacion', '$estado')";
     $resultado=metodoPost($query);
     echo json_encode($resultado);
-    header("HTTP/1.1 200 ok");
+    //header("HTTP/1.1 200 ok");
     exit();
 
 }
