@@ -118,7 +118,7 @@ if ($_SERVER['REQUEST_URI'] == '/index.php/getCoupon' && $_SERVER['REQUEST_METHO
         $resultado = metodoGet($query);
         echo json_encode($resultado->fetchAll());
     } else {
-        $query = "SELECT * FROM Cupones";
+        $query = "SELECT * FROM Cupones WHERE usuarioEmpresa='asdasd2'";
         $resultado = metodoGet($query);
         echo json_encode($resultado->fetchAll());
 
