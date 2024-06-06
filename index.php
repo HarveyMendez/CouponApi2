@@ -27,16 +27,29 @@ if ($_SERVER['REQUEST_URI'] == '/index.php/insertEmpresa' && $_SERVER['REQUEST_M
 }
 
 if ($_SERVER['REQUEST_URI'] == '/index.php/newCoupon' && $_SERVER['REQUEST_METHOD'] == 'POST') {
-    $id = $_POST['id'];
-    $nombre_usuario = $_POST['nombre_usuario'];
+
+    $json = file_get_contents('php://input');
+    $data = json_decode($json, true);
+
+        
+    if ($data === null) {
+        // Error al decodificar JSON
+        http_response_code(400); 
+        echo json_encode(['error' => 'Error en los datos JSON']);
+        exit();
+    }
+
+
+    $id = $data['id'];
+    $nombre_usuario = $data['nombre_usuario'];
     $fecha_creacion = date('Y-m-d');
-    $fecha_inicio = $_POST['fechaInicio'];
-    $fecha_vencimiento = $_POST['fechaVencimiento'];
-    $nombre = $_POST['nombre'];
-    $precio = $_POST['precio'];
-    $estado = $_POST['estado'];
-    $categoria = $_POST['categoria'];
-    $cantidad = $_POST['cantidad'];
+    $fecha_inicio = $data['fechaInicio'];
+    $fecha_vencimiento = $data['fechaVencimiento'];
+    $nombre = $data['nombre'];
+    $precio = $data['precio'];
+    $estado = $data['estado'];
+    $categoria = $data['categoria'];
+    $cantidad = $data['cantidad'];
 
     // Aquí deberías sanitizar y validar tus datos antes de usarlos en la consulta SQL
 
