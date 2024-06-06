@@ -28,7 +28,7 @@ if ($_SERVER['REQUEST_URI'] == '/index.php/insertEmpresa' && $_SERVER['REQUEST_M
 
 
 if ($_SERVER['REQUEST_URI'] == '/index.php/businessLogin' && $_SERVER['REQUEST_METHOD'] == 'POST') {
-        echo "login POST";
+        echo "login POST \n";
         $json = file_get_contents('php://input');
         $data = json_decode($json, true);
 
@@ -43,6 +43,8 @@ if ($_SERVER['REQUEST_URI'] == '/index.php/businessLogin' && $_SERVER['REQUEST_M
         $username = $data['username']; 
         $password = $data['password']; 
 
+        echo "usuario: ", $username, "contraseña: ", $password, "\n";
+
         $query = "SELECT 
                     nombre_usuario,
                     CASE
@@ -54,8 +56,10 @@ if ($_SERVER['REQUEST_URI'] == '/index.php/businessLogin' && $_SERVER['REQUEST_M
                     WHERE nombre_usuario = '$username'
                 ) AS e;";
 
-        $resultado = metodoPost($query);
-        echo json_encode($resultado);
+        echo "query: ", $query, "\n";
+
+        $resultado = metodoGet($query);
+        echo json_encode($resultado->fetch(PDO::FETCH_ASSOC));
         exit();
 }
 
