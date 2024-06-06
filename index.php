@@ -110,9 +110,9 @@ if ($_SERVER['REQUEST_URI'] == '/index.php/businessLogin' && $_SERVER['REQUEST_M
 
 
 if (strpos($_SERVER['REQUEST_URI'], '/index.php/getCoupon') !== false && $_SERVER['REQUEST_METHOD'] == 'GET') {
-    echo(print_r($_GET, true)); // Añadir esto para ver el contenido de $_GET
+    
     if (isset($_GET['usuarioEmpresa'])) {
-        echo "filtrada";
+        
         // Aquí deberías validar y escapar la entrada para prevenir inyecciones SQL
         $usuarioEmpresa = $_GET['usuarioEmpresa'];
         $query = "SELECT * FROM Cupones WHERE usuarioEmpresa='$usuarioEmpresa'";
