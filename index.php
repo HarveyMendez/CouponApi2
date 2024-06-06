@@ -3,9 +3,7 @@ include 'data/Database.php';
 
 header('Access-Control-Allow-Origin: *');
 
-if($_POST['METHOD']=='POST'){
-
-    unset($POST['METHOD']);
+if($_SERVER['REQUEST_METHOD']=='POST'){
     $id=$_POST['id'];
     $nombre_empresa=$_POST['nombre_empresa'];
     $nombre_usuario=$_POST['nombre_usuario'];
@@ -17,32 +15,32 @@ if($_POST['METHOD']=='POST'){
     $contrasenna=$_POST['contrasenna'];
     $ubicacion=$_POST['ubicacion'];
     $estado=$_POST['estado'];
-    $query="insert into Empresa values('$id', '$nombre_empresa', '$nombre_usuario', '$direccion_fisica', '$cedula', '$fecha_creacion', '$correo_electronico', '$telefono', '$contrasenna', '$ubicacion', '$estado')";
+
+    // Aquí deberías sanitizar y validar tus datos antes de usarlos en la consulta SQL
+
+    $query="INSERT INTO Empresa VALUES('$id', '$nombre_empresa', '$nombre_usuario', '$direccion_fisica', '$cedula', '$fecha_creacion', '$correo_electronico', '$telefono', '$contrasenna', '$ubicacion', '$estado')";
     $resultado=metodoPost($query);
     echo json_encode($resultado);
-    //header("HTTP/1.1 200 ok");
     exit();
-
 }
 
-
-
 if($_SERVER['REQUEST_METHOD']=='GET'){
-
     if(isset($_GET['id'])){
-        $query="select * from Empresa where id=".$_GET['id'];
-        $resultado=metodoGet($query);
-        echo json_encode($resultado)->fetch(PDO::FETCH_ASSOC);
+        $id = $_GET['id'];
+
+        // Aquí deberías validar y escapar la entrada para prevenir inyecciones SQL
+
+        $query = "SELECT * FROM Empresa WHERE id=?";
+        $resultado = metodoGet($query, [$id]);
+        echo json_encode($resultado);
+        exit();
     }
     else{
-        $query="select * from Empresa";
-        $resultado=metodoGet($query);
-        echo json_encode($resultado)->fetch();
+        $query = "SELECT * FROM Empresa";
+        $resultado = metodoGet($query);
+        echo json_encode($resultado);
+        exit();
     }
-
-    //header("HTTP/1.1 200 ok");
-    exit();
-
 }
 
 echo "¡Hola Mundo!";
