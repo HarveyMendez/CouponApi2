@@ -114,12 +114,12 @@ if (strpos($_SERVER['REQUEST_URI'], '/index.php/getCoupon') !== false && $_SERVE
     if (isset($_GET['usuarioEmpresa'])) {
         echo "filtrada";
         // Aquí deberías validar y escapar la entrada para prevenir inyecciones SQL
-
-        $query = "SELECT * FROM Cupones WHERE usuarioEmpresa=".$_GET['usuarioEmpresa'];
+        $usuarioEmpresa = $_GET['usuarioEmpresa'];
+        $query = "SELECT * FROM Cupones WHERE usuarioEmpresa='$usuarioEmpresa'";
         $resultado = metodoGet($query);
         echo json_encode($resultado->fetchAll());
     } else {
-        $query = "SELECT * FROM Cupones WHERE usuarioEmpresa=".$_GET['usuarioEmpresa'];
+        $query = "SELECT * FROM Cupones";
         $resultado = metodoGet($query);
         echo json_encode($resultado->fetchAll());
 
