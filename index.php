@@ -63,10 +63,10 @@ if ($_SERVER['REQUEST_URI'] == '/index.php/businessLogin' && $_SERVER['REQUEST_M
         if ($resultado === false) {
             echo json_encode(['nombre_usuario' => '', 'contrasenna' => '']);
         } else {
-            echo json_encode($resultado);
+            echo json_encode($resultado->fetch(PDO::FETCH_ASSOC));
         }
 
-        //echo json_encode($resultado->fetch(PDO::FETCH_ASSOC));
+        //
         exit();
 }
 
