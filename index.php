@@ -34,14 +34,14 @@ if($_SERVER['REQUEST_METHOD']=='GET'){
 
         $query = "SELECT * FROM Empresa WHERE id=?";
         $resultado = metodoGet($query, [$id]);
-        echo json_encode($resultado);
+        echo json_encode($resultado)->fetch(PDO::FETCH_ASSOC);
         exit();
     }
     else{
         echo "devolver todo";
         $query = "SELECT * FROM Empresa";
         $resultado = metodoGet($query);
-        echo json_encode($resultado);
+        echo json_encode($resultado)->fetch();
         exit();
     }
     echo "no devolver nada";
