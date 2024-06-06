@@ -109,7 +109,7 @@ if ($_SERVER['REQUEST_URI'] == '/index.php/businessLogin' && $_SERVER['REQUEST_M
 
 
 
-if ($_SERVER['REQUEST_URI'] == '/index.php/getCoupon' && $_SERVER['REQUEST_METHOD'] == 'GET') {
+if (strpos($_SERVER['REQUEST_URI'], '/index.php/getCoupon') !== false && $_SERVER['REQUEST_METHOD'] == 'GET') {
     echo(print_r($_GET, true)); // Añadir esto para ver el contenido de $_GET
     if (isset($_GET['usuarioEmpresa'])) {
         echo "filtrada";
