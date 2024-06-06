@@ -26,25 +26,23 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 
 if($_SERVER['REQUEST_METHOD']=='GET'){
     if(isset($_GET['id'])){
-        $id = $_GET['id'];
 
         // Aquí deberías validar y escapar la entrada para prevenir inyecciones SQL
 
         echo "devolver uno";
 
-        $query = "SELECT * FROM Empresa WHERE id=?";
-        $resultado = metodoGet($query, [$id]);
+        $query="SELECT * FROM Empresa WHERE id=".$_GET['id'];
+        $resultado = metodoGet($query);
         echo json_encode($resultado)->fetch(PDO::FETCH_ASSOC);
-        exit();
     }
     else{
         echo "devolver todo";
         $query = "SELECT * FROM Empresa";
         $resultado = metodoGet($query);
-        echo json_encode($resultado)->fetch();
-        exit();
+        echo json_encode($resultado)->fetchAll();
+        
     }
-    echo "no devolver nada";
+    exit();
 }
 
 echo "¡Hola Mundo!";
