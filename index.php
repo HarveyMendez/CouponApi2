@@ -60,6 +60,9 @@ if ($_SERVER['REQUEST_URI'] == '/index.php/newCoupon' && $_SERVER['REQUEST_METHO
 }
 
 
+
+
+
 if ($_SERVER['REQUEST_URI'] == '/index.php/businessLogin' && $_SERVER['REQUEST_METHOD'] == 'POST') {
 
         $json = file_get_contents('php://input');
@@ -106,16 +109,16 @@ if ($_SERVER['REQUEST_URI'] == '/index.php/businessLogin' && $_SERVER['REQUEST_M
 
 
 
-if ($_SERVER['REQUEST_METHOD'] == 'GET') {
-    if (isset($_GET['id'])) {
+if ($_SERVER['REQUEST_URI'] == '/index.php/getCoupon' && $_SERVER['REQUEST_METHOD'] == 'GET') {
+    if (isset($_GET['usuarioEmpresa'])) {
 
         // Aquí deberías validar y escapar la entrada para prevenir inyecciones SQL
 
-        $query = "SELECT * FROM Empresa WHERE id=" . $_GET['id'];
+        $query = "SELECT * FROM Cupones WHERE usuarioEmpresa=" . $_GET['usuarioEmpresa'];
         $resultado = metodoGet($query);
         echo json_encode($resultado->fetch(PDO::FETCH_ASSOC));
     } else {
-        $query = "SELECT * FROM Empresa";
+        $query = "SELECT * FROM Cupones";
         $resultado = metodoGet($query);
         echo json_encode($resultado->fetchAll());
 
