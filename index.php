@@ -5,7 +5,7 @@ header('Access-Control-Allow-Origin: *');
 
 echo 'url:', $_SERVER['REQUEST_URI'] , "\n";
 
-if ($_SERVER['REQUEST_URI'] == '/insertEmpresa' && $_SERVER['REQUEST_METHOD'] == 'POST') {
+if ($_SERVER['REQUEST_URI'] == '/index.php/insertEmpresa' && $_SERVER['REQUEST_METHOD'] == 'POST') {
     $id = $_POST['id'];
     $nombre_empresa = $_POST['nombre_empresa'];
     $nombre_usuario = $_POST['nombre_usuario'];
@@ -27,7 +27,7 @@ if ($_SERVER['REQUEST_URI'] == '/insertEmpresa' && $_SERVER['REQUEST_METHOD'] ==
 }
 
 
-if ($_SERVER['REQUEST_URI'] == '/businessLogin' && $_SERVER['REQUEST_METHOD'] == 'POST') {
+if ($_SERVER['REQUEST_URI'] == '/index.php/businessLogin' && $_SERVER['REQUEST_METHOD'] == 'POST') {
         echo "login POST";
         $json = file_get_contents('php://input');
         $data = json_decode($json, true);
