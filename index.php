@@ -6,6 +6,7 @@ header('Access-Control-Allow-Origin: *');
 if($_POST['METHOD']=='POST'){
 
     unset($POST['METHOD']);
+    $id=$_POST['id'];
     $nombre_empresa=$_POST['nombre_empresa'];
     $nombre_usuario=$_POST['nombre_usuario'];
     $direccion_fisica=$_POST['direccion_fisica'];
@@ -16,7 +17,7 @@ if($_POST['METHOD']=='POST'){
     $contrasenna=$_POST['contrasenna'];
     $ubicacion=$_POST['ubicacion'];
     $estado=$_POST['estado'];
-    $query="insert into Empresa(nombre_empresa, nombre_usuario, direccion_fisica, cedula, fecha_creacion, correo_electronico, telefono, contrasena, ubicacion, estado) values('$nombre_empresa', '$nombre_usuario', '$direccion_fisica', '$cedula', '$fecha_creacion', '$correo_electronico', '$telefono', '$contrasenna', '$ubicacion', '$estado')";
+    $query="insert into Empresa(id, nombre_empresa, nombre_usuario, direccion_fisica, cedula, fecha_creacion, correo_electronico, telefono, contrasena, ubicacion, estado) values('$id', '$nombre_empresa', '$nombre_usuario', '$direccion_fisica', '$cedula', '$fecha_creacion', '$correo_electronico', '$telefono', '$contrasenna', '$ubicacion', '$estado')";
     $resultado=metodoPost($query);
     echo json_encode($resultado);
     //header("HTTP/1.1 200 ok");
