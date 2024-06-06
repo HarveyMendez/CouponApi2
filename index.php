@@ -3,7 +3,10 @@ include 'data/Database.php';
 
 header('Access-Control-Allow-Origin: *');
 
-if ($_SERVER['REQUEST_URI'] == '/insertEmpresa' && $_SERVER['REQUEST_METHOD'] == 'POST') {
+// Obtener la ruta de la solicitud actual
+$request_path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+
+if ($request_path == '/insertEmpresa' && $_SERVER['REQUEST_METHOD'] == 'POST')  {
     $id = $_POST['id'];
     $nombre_empresa = $_POST['nombre_empresa'];
     $nombre_usuario = $_POST['nombre_usuario'];
