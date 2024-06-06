@@ -53,7 +53,7 @@ if ($_SERVER['REQUEST_URI'] == '/index.php/newCoupon' && $_SERVER['REQUEST_METHO
 
     // Aquí deberías sanitizar y validar tus datos antes de usarlos en la consulta SQL
 
-    $query = "INSERT INTO Cupones VALUES('$id', '$nombre_usuario', '$fecha_creacion', '$fecha_inicio', '$fecha_vencimiento', '$nombre', '$precio', '$estado', '$categoria', '$cantidad')";
+    $query = "INSERT INTO Cupones(usuarioEmpresa, fecha_creacion, fecha_inicio, fecha_vencimiento, nombre, precio, estado, categoria, cantidad) VALUES( '$nombre_usuario', '$fecha_creacion', '$fecha_inicio', '$fecha_vencimiento', '$nombre', '$precio', '$estado', '$categoria', '$cantidad')";
     $resultado = metodoPost($query);
     echo json_encode($resultado);
     exit();
