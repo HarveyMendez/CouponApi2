@@ -111,10 +111,10 @@ if ($_SERVER['REQUEST_URI'] == '/index.php/businessLogin' && $_SERVER['REQUEST_M
 
 if ($_SERVER['REQUEST_URI'] == '/index.php/getCoupon' && $_SERVER['REQUEST_METHOD'] == 'GET') {
     if (isset($_GET['usuarioEmpresa'])) {
-
+        echo "filtrada";
         // Aquí deberías validar y escapar la entrada para prevenir inyecciones SQL
 
-        $query = "SELECT * FROM Cupones WHERE usuarioEmpresa=" . $_GET['usuarioEmpresa'];
+        $query = "SELECT * FROM Cupones WHERE usuarioEmpresa=".$_GET['usuarioEmpresa'];
         $resultado = metodoGet($query);
         echo json_encode($resultado->fetchAll());
     } else {
