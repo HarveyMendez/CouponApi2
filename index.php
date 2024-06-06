@@ -18,8 +18,6 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 
     // Aquí deberías sanitizar y validar tus datos antes de usarlos en la consulta SQL
 
-    echo "ID: $id, Nombre Empresa: $nombre_empresa, Nombre Usuario: $nombre_usuario, Dirección Física: $direccion_fisica, cedula: $cedula, fechaCreacion: $fecha_creacion, correo: $correo_electronico, telefono: $telefono, contrase;a: $contrasenna, ubicacion: $ubicacion, estado: $estado";
-
     $query="INSERT INTO Empresa VALUES('$id', '$nombre_empresa', '$nombre_usuario', '$direccion_fisica', '$cedula', '$fecha_creacion', '$correo_electronico', '$telefono', '$contrasenna', '$ubicacion', '$estado')";
     $resultado=metodoPost($query);
     echo json_encode($resultado);
@@ -32,17 +30,21 @@ if($_SERVER['REQUEST_METHOD']=='GET'){
 
         // Aquí deberías validar y escapar la entrada para prevenir inyecciones SQL
 
+        echo "devolver uno";
+
         $query = "SELECT * FROM Empresa WHERE id=?";
         $resultado = metodoGet($query, [$id]);
         echo json_encode($resultado);
         exit();
     }
     else{
+        echo "devolver todo";
         $query = "SELECT * FROM Empresa";
         $resultado = metodoGet($query);
         echo json_encode($resultado);
         exit();
     }
+    echo "no devolver nada";
 }
 
 echo "¡Hola Mundo!";

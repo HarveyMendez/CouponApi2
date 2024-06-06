@@ -33,6 +33,7 @@ function metodoPost($query){
         $sentencia->execute();
         $sentencia->closeCursor();
         desconectar();
+        $resultado=$_POST;
         return $resultado;
     }
     catch(Exception $e){
@@ -43,7 +44,7 @@ function metodoPost($query){
 
 
 
-function metodoGet(){
+function metodoGet($query){
     try{
         conectar();
         $sentencia=$GLOBALS['pdo']->prepare($query);
