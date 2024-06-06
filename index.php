@@ -116,7 +116,7 @@ if ($_SERVER['REQUEST_URI'] == '/index.php/getCoupon' && $_SERVER['REQUEST_METHO
 
         $query = "SELECT * FROM Cupones WHERE usuarioEmpresa=" . $_GET['usuarioEmpresa'];
         $resultado = metodoGet($query);
-        echo json_encode($resultado->fetch(PDO::FETCH_ASSOC));
+        echo json_encode($resultado->fetchAll(PDO::FETCH_ASSOC));
     } else {
         $query = "SELECT * FROM Cupones";
         $resultado = metodoGet($query);
