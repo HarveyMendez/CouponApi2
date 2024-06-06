@@ -43,5 +43,21 @@ function metodoPost($query){
 
 
 
+function metodoGet(){
+    try{
+        conectar();
+        $sentencia=$GLOBALS['pdo']->prepare($query);
+        $sentencia->setFetchMode(PDO::FETCH_ASSOC);
+        $sentencia->execute();
+        desconectar();
+        return $sentencia;
+    }
+    catch(Exception $e){
+        die("Error".$e);
+    }
+    }
+
+
+
 
 ?>
