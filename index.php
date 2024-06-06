@@ -3,7 +3,7 @@ include 'data/Database.php';
 
 header('Access-Control-Allow-Origin: *');
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+if ($_SERVER['REQUEST_URI'] == '/insertEmpresa' && $_SERVER['REQUEST_METHOD'] == 'POST') {
     $id = $_POST['id'];
     $nombre_empresa = $_POST['nombre_empresa'];
     $nombre_usuario = $_POST['nombre_usuario'];
@@ -25,8 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 }
 
 
-if ($_SERVER['REQUEST_URI'] == '/businessLogin') {
-    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+if ($_SERVER['REQUEST_URI'] == '/businessLogin' && $_SERVER['REQUEST_METHOD'] == 'POST') {
         echo "login POST";
         $json = file_get_contents('php://input');
         $data = json_decode($json, true);
@@ -56,8 +55,6 @@ if ($_SERVER['REQUEST_URI'] == '/businessLogin') {
         $resultado = metodoPost($query);
         echo json_encode($resultado);
         exit();
-    }
-    echo "loginMethod";
 }
 
 
