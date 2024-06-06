@@ -3,8 +3,6 @@ include 'data/Database.php';
 
 header('Access-Control-Allow-Origin: *');
 
-echo 'url:', $_SERVER['REQUEST_URI'] , "\n";
-
 if ($_SERVER['REQUEST_URI'] == '/index.php/insertEmpresa' && $_SERVER['REQUEST_METHOD'] == 'POST') {
     $id = $_POST['id'];
     $nombre_empresa = $_POST['nombre_empresa'];
@@ -28,7 +26,7 @@ if ($_SERVER['REQUEST_URI'] == '/index.php/insertEmpresa' && $_SERVER['REQUEST_M
 
 
 if ($_SERVER['REQUEST_URI'] == '/index.php/businessLogin' && $_SERVER['REQUEST_METHOD'] == 'POST') {
-        echo "login POST \n";
+
         $json = file_get_contents('php://input');
         $data = json_decode($json, true);
 
@@ -40,23 +38,23 @@ if ($_SERVER['REQUEST_URI'] == '/index.php/businessLogin' && $_SERVER['REQUEST_M
             exit();
         }
 
-        $username = $data['username']; 
-        $password = $data['password']; 
+        $usernameBusiness = $data['username']; 
+        $passwordBusiness = $data['password']; 
 
-        echo "usuario: ", $username, "contraseña: ", $password, "\n";
+        
 
         $query = "SELECT 
                     nombre_usuario,
                     CASE
-                        WHEN e.contrasena = '$password' THEN e.contrasena
+                        WHEN e.contrasena = '$passwordBusiness' THEN e.contrasena
                     END AS contrasena
                 FROM (
                     SELECT nombre_usuario, contrasena
                     FROM Empresa
-                    WHERE nombre_usuario = '$username'
+                    WHERE nombre_usuario = '$usernameBusiness'
                 ) AS e;";
 
-        echo "query: ", $query, "\n";
+        
 
         $resultado = metodoGet($query);
         echo json_encode($resultado->fetch(PDO::FETCH_ASSOC));
