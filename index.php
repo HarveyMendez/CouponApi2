@@ -26,6 +26,26 @@ if ($_SERVER['REQUEST_URI'] == '/index.php/insertEmpresa' && $_SERVER['REQUEST_M
     exit();
 }
 
+if ($_SERVER['REQUEST_URI'] == '/index.php/newCoupon' && $_SERVER['REQUEST_METHOD'] == 'POST') {
+    $id = $_POST['id'];
+    $nombre_usuario = $_POST['nombre_usuario'];
+    $fecha_creacion = date('Y-m-d');
+    $fecha_inicio = $_POST['fechaInicio'];
+    $fecha_vencimiento = $_POST['fechaVencimiento'];
+    $nombre = $_POST['nombre'];
+    $precio = $_POST['precio'];
+    $estado = $_POST['estado'];
+    $categoria = $_POST['categoria'];
+    $cantidad = $_POST['cantidad'];
+
+    // Aquí deberías sanitizar y validar tus datos antes de usarlos en la consulta SQL
+
+    $query = "INSERT INTO Cupones VALUES('$id', '$nombre_usuario', '$fecha_creacion', '$fecha_inicio', '$fecha_vencimiento', '$nombre', '$precio', '$estado', '$categoria', '$cantidad')";
+    $resultado = metodoPost($query);
+    echo json_encode($resultado);
+    exit();
+}
+
 
 if ($_SERVER['REQUEST_URI'] == '/index.php/businessLogin' && $_SERVER['REQUEST_METHOD'] == 'POST') {
 
