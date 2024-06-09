@@ -127,7 +127,27 @@ if (strpos($_SERVER['REQUEST_URI'], '/index.php/getCoupon') !== false && $_SERVE
     exit();
 }
 
+if (strpos($_SERVER['REQUEST_URI'], '/index.php/getCategories') !== false && $_SERVER['REQUEST_METHOD'] == 'GET') {
+    
+    if (isset($_GET['id'])) {
+        
+        // Aquí deberías validar y escapar la entrada para prevenir inyecciones SQL
+        $idCategoria = $_GET['id'];
+        $query = "SELECT * FROM Categorias WHERE id='$id'";
+        $resultado = metodoGet($query);
+        echo json_encode($resultado->fetchAll());
+    } else {
+        $query = "SELECT * FROM Categorias";
+        $resultado = metodoGet($query);
+        echo json_encode($resultado->fetchAll());
+
+    }
+    exit();
+}
+
 echo "¡Hola Mundo!";
+
+
 
 
 ?>
