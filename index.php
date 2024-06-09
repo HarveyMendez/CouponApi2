@@ -80,16 +80,23 @@ if ($_SERVER['REQUEST_URI'] == '/index.php/businessLogin' && $_SERVER['REQUEST_M
 
         
 
-        $query = "SELECT 
-                    nombre_usuario,
-                    CASE
-                        WHEN e.contrasena = '$passwordBusiness' THEN e.contrasena
-                    END AS contrasena
-                FROM (
-                    SELECT nombre_usuario, contrasena
-                    FROM Empresa
-                    WHERE nombre_usuario = '$usernameBusiness'
-                ) AS e;";
+        $query = "SELECT
+    e.nombre_usuario,
+    CASE
+	    WHEN c.claveTemp = '$passwordBusiness' THEN c.claveTemp
+        WHEN e.contrasena = '$passwordBusiness' THEN e.contrasena
+        ELSE NULL
+    END AS contrasena,
+    CASE
+    	WHEN c.claveTemp = '$passwordBusiness' THEN true
+    	ELSE false
+    END AS token
+FROM (
+    SELECT nombre_usuario, contrasena
+    FROM Empresa
+    WHERE nombre_usuario = '$usernameBusiness'
+) AS e
+	LEFT JOIN Claves c ON c.userEmpresa = e.nombre_usuario;";
 
         
 
