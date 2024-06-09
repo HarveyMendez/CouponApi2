@@ -39,8 +39,6 @@ if ($_SERVER['REQUEST_URI'] == '/index.php/newCoupon' && $_SERVER['REQUEST_METHO
         exit();
     }
 
-
-    $id = $data['id'];
     $nombre_usuario = $data['nombre_usuario'];
     $fecha_creacion = date('Y-m-d');
     $fecha_inicio = $data['fechaInicio'];
@@ -50,10 +48,11 @@ if ($_SERVER['REQUEST_URI'] == '/index.php/newCoupon' && $_SERVER['REQUEST_METHO
     $estado = $data['estado'];
     $categoria = $data['categoria'];
     $cantidad = $data['cantidad'];
+    $descuento = $data['descuento'];
 
     // Aquí deberías sanitizar y validar tus datos antes de usarlos en la consulta SQL
 
-    $query = "INSERT INTO Cupones(usuarioEmpresa, fecha_creacion, fecha_inicio, fecha_vencimiento, nombre, precio, estado, categoria, cantidad) VALUES( '$nombre_usuario', '$fecha_creacion', '$fecha_inicio', '$fecha_vencimiento', '$nombre', '$precio', '$estado', '$categoria', '$cantidad')";
+    $query = "INSERT INTO Cupones(usuarioEmpresa, fecha_creacion, fecha_inicio, fecha_vencimiento, nombre, precio, estado, categoria, cantidad, descuento) VALUES( '$nombre_usuario', '$fecha_creacion', '$fecha_inicio', '$fecha_vencimiento', '$nombre', '$precio', '$estado', '$categoria', '$cantidad', '$descuento')";
     $resultado = metodoPost($query);
     echo json_encode($resultado);
     exit();
