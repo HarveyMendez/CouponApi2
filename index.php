@@ -7,21 +7,21 @@ header("Access-Control-Allow-Methods: PUT, GET, POST, DELETE, OPTIONS");
 header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept, Authorization");
 
 if ($_SERVER['REQUEST_URI'] == '/index.php/insertEmpresa' && $_SERVER['REQUEST_METHOD'] == 'POST') {
-    $id = $_POST['id'];
+    
     $nombre_empresa = $_POST['nombre_empresa'];
     $nombre_usuario = $_POST['nombre_usuario'];
     $direccion_fisica = $_POST['direccion_fisica'];
     $cedula = $_POST['cedula'];
-    $fecha_creacion = $_POST['fecha_creacion'];
+    $fecha_creacion = date('Y-m-d');
     $correo_electronico = $_POST['correo_electronico'];
     $telefono = $_POST['telefono'];
-    $contrasenna = $_POST['contrasenna'];
     $ubicacion = $_POST['ubicacion'];
-    $estado = $_POST['estado'];
+    
 
     // Aquí deberías sanitizar y validar tus datos antes de usarlos en la consulta SQL
 
-    $query = "INSERT INTO Empresa VALUES('$id', '$nombre_empresa', '$nombre_usuario', '$direccion_fisica', '$cedula', '$fecha_creacion', '$correo_electronico', '$telefono', '$contrasenna', '$ubicacion', '$estado')";
+    $query = "INSERT INTO Empresa (nombre_empresa, nombre_usuario, direccion_fisica, cedula, fecha_creacion, correo_electronico, telefono, contrasena, ubicacion, estado)
+                 VALUES('$nombre_empresa', '$nombre_usuario', '$direccion_fisica', '$cedula', '$fecha_creacion', '$correo_electronico', '$telefono', 'NULL', '$ubicacion', 'true')";
     $resultado = metodoPost($query);
     echo json_encode($resultado);
     exit();
