@@ -99,6 +99,43 @@ if ($_SERVER['REQUEST_URI'] == '/index.php/updateCupon' && $_SERVER['REQUEST_MET
     exit();
 }
 
+if ($_SERVER['REQUEST_URI'] == '/index.php/updateBusiness' && $_SERVER['REQUEST_METHOD'] == 'PUT') {
+    $json = file_get_contents('php://input');
+    $data = json_decode($json, true);
+
+        
+    if ($data === null) {
+        // Error al decodificar JSON
+        http_response_code(400); 
+        echo json_encode(['error' => 'Error en los datos JSON']);
+        exit();
+    }
+    
+    $nombre_usuario = $data['nombre_usuario'];
+    $nombre_empresa = $data['nombre_empresa'];
+    $direccion_fisica = $data['direccion_fisica'];
+    $cedula = $data['cedula'];
+    $correo_electronico = $data['correo_electronico'];
+    $telefono = $data['telefono'];
+    $ubicacion = $data['ubicacion'];
+
+
+    //validar antes de hacer la consulta
+
+    $query = "UPDATE Empresa 
+                SET nombre_empresa = '$nombre_empresa', 
+                    direccion_fisica = '$direccion_fisica', 
+                    cedula = '$cedula', 
+                    correo_electronico = '$correo_electronico', 
+                    telefono = '$telefono', 
+                    ubicacion = '$ubicacion'
+                WHERE nombre_usuario = '$nombre_usuario'";
+
+    $resultado = metodoPut($query);
+    echo json_encode($resultado);
+    exit();
+}
+
 if ($_SERVER['REQUEST_URI'] == '/index.php/changePassword' && $_SERVER['REQUEST_METHOD'] == 'POST') {
     $json = file_get_contents('php://input');
     $data = json_decode($json, true);
@@ -228,7 +265,7 @@ if (strpos($_SERVER['REQUEST_URI'], '/index.php/getBusiness') !== false && $_SER
         $resultado = metodoGet($query);
         echo json_encode($resultado->fetchAll());
     } else {
-        $query = "SELECT * FROM Cupones";
+        $query = "SELECT * FROM Empresa";
         $resultado = metodoGet($query);
         echo json_encode($resultado->fetchAll());
 
