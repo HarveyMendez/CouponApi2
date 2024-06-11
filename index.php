@@ -87,7 +87,7 @@ if ($_SERVER['REQUEST_URI'] == '/index.php/changePassword' && $_SERVER['REQUEST_
         if ($resultado1 === false || $resultado2 === false) {
             echo json_encode(['nombre_usuario' => '', 'contrasenna' => '']);
         } else {
-            echo json_encode($resultado1->fetch(PDO::FETCH_ASSOC), $resultado2->fetch(PDO::FETCH_ASSOC));
+            echo json_encode(['message' => 'Contraseña actualizada y usuario desvinculado correctamente']);
         }
 
     exit();
