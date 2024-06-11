@@ -27,9 +27,6 @@ if ($_SERVER['REQUEST_URI'] == '/index.php/insertEmpresa' && $_SERVER['REQUEST_M
     exit();
 }
 
-
-
-
 if ($_SERVER['REQUEST_URI'] == '/index.php/newCoupon' && $_SERVER['REQUEST_METHOD'] == 'POST') {
 
     $json = file_get_contents('php://input');
@@ -215,6 +212,23 @@ if (strpos($_SERVER['REQUEST_URI'], '/index.php/getCategories') !== false && $_S
         echo json_encode($resultado->fetchAll());
     } else {
         $query = "SELECT * FROM Categorias";
+        $resultado = metodoGet($query);
+        echo json_encode($resultado->fetchAll());
+
+    }
+    exit();
+}
+
+if (strpos($_SERVER['REQUEST_URI'], '/index.php/getBusiness') !== false && $_SERVER['REQUEST_METHOD'] == 'GET') {
+    if (isset($_GET['usuarioEmpresa'])) {
+        
+        // Aquí deberías validar y escapar la entrada para prevenir inyecciones SQL
+        $usuarioEmpresa = $_GET['usuarioEmpresa'];
+        $query = "SELECT * FROM Empresa WHERE usuarioEmpresa='$usuarioEmpresa'";
+        $resultado = metodoGet($query);
+        echo json_encode($resultado->fetchAll());
+    } else {
+        $query = "SELECT * FROM Cupones";
         $resultado = metodoGet($query);
         echo json_encode($resultado->fetchAll());
 
