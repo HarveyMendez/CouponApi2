@@ -59,7 +59,39 @@ if ($_SERVER['REQUEST_URI'] == '/index.php/newCoupon' && $_SERVER['REQUEST_METHO
 }
 
 
+if ($_SERVER['REQUEST_URI'] == '/index.php/changePassword' && $_SERVER['REQUEST_METHOD'] == 'POST') {
+    $json = file_get_contents('php://input');
+    $data = json_decode($json, true);
+    if ($data === null) {
+        // Error al decodificar JSON
+        http_response_code(400); 
+        echo json_encode(['error' => 'Error en los datos JSON']);
+        exit();
+    }
 
+    $usernameBusiness = $data['username']; 
+    $newPasswordBusiness = $data['password'];
+
+    $query1 = "UPDATE Empresa 
+                SET contrasena = '$newPasswordBusiness'
+                WHERE nombre_usuario = '$$usernameBusiness'";
+
+    $query2 = "UPDATE Claves 
+                SET userEmpresa = NULL 
+                WHERE userEmpresa = '$usernameBusiness'";
+
+    $resultado1 = metodoGet($query1);
+
+    $resultado2 = metodoGet($query2);
+
+        if ($resultado1 === false || $resultado2 === false) {
+            echo json_encode(['nombre_usuario' => '', 'contrasenna' => '']);
+        } else {
+            echo json_encode($resultado->fetch(PDO::FETCH_ASSOC));
+        }
+
+    exit();
+}
 
 
 if ($_SERVER['REQUEST_URI'] == '/index.php/businessLogin' && $_SERVER['REQUEST_METHOD'] == 'POST') {
