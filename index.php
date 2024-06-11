@@ -74,7 +74,7 @@ if ($_SERVER['REQUEST_URI'] == '/index.php/changePassword' && $_SERVER['REQUEST_
 
     $query1 = "UPDATE Empresa 
                 SET contrasena = '$newPasswordBusiness'
-                WHERE nombre_usuario = '$$usernameBusiness'";
+                WHERE nombre_usuario = '$usernameBusiness'";
 
     $query2 = "UPDATE Claves 
                 SET userEmpresa = NULL 
