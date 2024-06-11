@@ -224,7 +224,7 @@ if (strpos($_SERVER['REQUEST_URI'], '/index.php/getBusiness') !== false && $_SER
         
         // Aquí deberías validar y escapar la entrada para prevenir inyecciones SQL
         $usuarioEmpresa = $_GET['usuarioEmpresa'];
-        $query = "SELECT * FROM Empresa WHERE usuarioEmpresa='$usuarioEmpresa'";
+        $query = "SELECT * FROM Empresa WHERE nombre_usuario='$usuarioEmpresa'";
         $resultado = metodoGet($query);
         echo json_encode($resultado->fetchAll());
     } else {
