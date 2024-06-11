@@ -7,21 +7,30 @@ header("Access-Control-Allow-Methods: PUT, GET, POST, DELETE, OPTIONS");
 header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept, Authorization");
 
 if ($_SERVER['REQUEST_URI'] == '/index.php/insertEmpresa' && $_SERVER['REQUEST_METHOD'] == 'POST') {
+
+    $json = file_get_contents('php://input');
+    $data = json_decode($json, true);
+    if ($data === null) {
+        // Error al decodificar JSON
+        http_response_code(400); 
+        echo json_encode(['error' => 'Error en los datos JSON']);
+        exit();
+    }
     
-    $nombre_empresa = $_POST['nombre_empresa'];
-    $nombre_usuario = $_POST['nombre_usuario'];
-    $direccion_fisica = $_POST['direccion_fisica'];
-    $cedula = $_POST['cedula'];
+    $nombre_empresa = $data['nombre_empresa'];
+    $nombre_usuario = $data['nombre_usuario'];
+    $direccion_fisica = $data['direccion_fisica'];
+    $cedula = $data['cedula'];
     $fecha_creacion = date('Y-m-d');
-    $correo_electronico = $_POST['correo_electronico'];
-    $telefono = $_POST['telefono'];
-    $ubicacion = $_POST['ubicacion'];
+    $correo_electronico = $data['correo_electronico'];
+    $telefono = $data['telefono'];
+    $ubicacion = $data['ubicacion'];
     
 
     // Aquí deberías sanitizar y validar tus datos antes de usarlos en la consulta SQL
 
     $query = "INSERT INTO Empresa (nombre_empresa, nombre_usuario, direccion_fisica, cedula, fecha_creacion, correo_electronico, telefono, contrasena, ubicacion, estado)
-                 VALUES('$nombre_empresa', '$nombre_usuario', '$direccion_fisica', '$cedula', '$fecha_creacion', '$correo_electronico', '$telefono', 'NULL', '$ubicacion', 'true')";
+                 VALUES('$nombre_empresa', '$nombre_usuario', '$direccion_fisica', '$cedula', '$fecha_creacion', '$correo_electronico', '$telefono', 'sincontraseña', '$ubicacion', 'true')";
     $resultado = metodoPost($query);
     echo json_encode($resultado);
     exit();
