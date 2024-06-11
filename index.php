@@ -26,6 +26,9 @@ if ($_SERVER['REQUEST_URI'] == '/index.php/insertEmpresa' && $_SERVER['REQUEST_M
     exit();
 }
 
+
+
+
 if ($_SERVER['REQUEST_URI'] == '/index.php/newCoupon' && $_SERVER['REQUEST_METHOD'] == 'POST') {
 
     $json = file_get_contents('php://input');
@@ -54,6 +57,50 @@ if ($_SERVER['REQUEST_URI'] == '/index.php/newCoupon' && $_SERVER['REQUEST_METHO
 
     $query = "INSERT INTO Cupones(usuarioEmpresa, fecha_creacion, fecha_inicio, fecha_vencimiento, nombre, precio, estado, categoria, cantidad, descuento) VALUES( '$nombre_usuario', '$fecha_creacion', '$fecha_inicio', '$fecha_vencimiento', '$nombre', '$precio', '$estado', '$categoria', '$cantidad', '$descuento')";
     $resultado = metodoPost($query);
+    echo json_encode($resultado);
+    exit();
+}
+
+
+
+
+
+if ($_SERVER['REQUEST_URI'] == '/index.php/updateCupon' && $_SERVER['REQUEST_METHOD'] == 'PUT') {
+    $json = file_get_contents('php://input');
+    $data = json_decode($json, true);
+
+        
+    if ($data === null) {
+        // Error al decodificar JSON
+        http_response_code(400); 
+        echo json_encode(['error' => 'Error en los datos JSON']);
+        exit();
+    }
+    
+    $nombre_usuario = $data['nombre_usuario'];
+    $fecha_inicio = $data['fechaInicio'];
+    $fecha_vencimiento = $data['fechaVencimiento'];
+    $nombre = $data['nombre'];
+    $precio = $data['precio'];
+    $estado = $data['estado'];
+    $categoria = $data['categoria'];
+    $cantidad = $data['cantidad'];
+    $descuento = $data['descuento'];
+
+    //validar antes de hacer la consulta
+
+    $query = "UPDATE Cupones 
+                SET fecha_inicio = '$fecha_inicio', 
+                    fecha_vencimiento = '$fecha_vencimiento', 
+                    nombre = '$nombre', 
+                    precio = '$precio', 
+                    estado = '$estado', 
+                    categoria = '$categoria', 
+                    cantidad = '$cantidad', 
+                    descuento = '$descuento'
+                WHERE usuarioEmpresa = '$nombre_usuario' 
+                    AND nombre = '$nombre'";
+    $resultado = metodoPut($query);
     echo json_encode($resultado);
     exit();
 }

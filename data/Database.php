@@ -56,7 +56,22 @@ function metodoGet($query){
     catch(Exception $e){
         die("Error".$e);
     }
+}
+
+
+function metodoPut($query){
+    try{
+        conectar();
+        $sentencia=$GLOBALS['pdo']->prepare($query);
+        $sentencia->execute();
+        $sentencia->closeCursor();
+        desconectar();
+        $resultado=$_POST;
+        return $resultado;
+    }catch(Exception $e){
+        die("Error: ".$e);
     }
+}    
 
 
 
