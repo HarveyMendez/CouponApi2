@@ -130,8 +130,29 @@ if ($_SERVER['REQUEST_URI'] == '/index.php/changeStatusCupon' && $_SERVER['REQUE
     $resultado = metodoPut($query);
     echo json_encode($resultado);
     exit();
+}
 
+if ($_SERVER['REQUEST_URI'] == '/index.php/changeStatusBusiness' && $_SERVER['REQUEST_METHOD'] == 'PUT') {
+    $json = file_get_contents('php://input');
+    $data = json_decode($json, true);
 
+        
+    if ($data === null) {
+        // Error al decodificar JSON
+        http_response_code(400); 
+        echo json_encode(['error' => 'Error en los datos JSON']);
+        exit();
+    }
+
+    $usuarioEmpresa = $data['nombre_usuario'];
+
+    $query = "UPDATE Empresa 
+                SET estado = NOT estado 
+                WHERE nombre_usuario = '$usuarioEmpresa'";
+
+    $resultado = metodoPut($query);
+    echo json_encode($resultado);
+    exit();
 }
 
 if ($_SERVER['REQUEST_URI'] == '/index.php/updateBusiness' && $_SERVER['REQUEST_METHOD'] == 'PUT') {
