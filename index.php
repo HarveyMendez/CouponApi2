@@ -255,7 +255,7 @@ FROM (
         exit();
 }
 
-if ($_SERVER['REQUEST_URI'] == '/index.php/getCoupon' && $_SERVER['REQUEST_METHOD'] == 'GET') {
+if (strpos($_SERVER['REQUEST_URI'], '/index.php/getCoupon') !== false && $_SERVER['REQUEST_METHOD'] == 'GET') {
     
     if (isset($_GET['usuarioEmpresa'])) {
         
@@ -273,7 +273,7 @@ if ($_SERVER['REQUEST_URI'] == '/index.php/getCoupon' && $_SERVER['REQUEST_METHO
     exit();
 }
 
-if ($_SERVER['REQUEST_URI'] == '/index.php/getCategories' && $_SERVER['REQUEST_METHOD'] == 'GET') {
+if (strpos($_SERVER['REQUEST_URI'], '/index.php/getCategories') !== false && $_SERVER['REQUEST_METHOD'] == 'GET') {
     
     if (isset($_GET['id'])) {
         
@@ -291,7 +291,7 @@ if ($_SERVER['REQUEST_URI'] == '/index.php/getCategories' && $_SERVER['REQUEST_M
     exit();
 }
 
-if ($_SERVER['REQUEST_URI'] == '/index.php/getBusiness' && $_SERVER['REQUEST_METHOD'] == 'GET') {
+if (strpos($_SERVER['REQUEST_URI'], '/index.php/getBusiness') !== false && $_SERVER['REQUEST_METHOD'] == 'GET') {
     if (isset($_GET['usuarioEmpresa'])) {
         
         // Aquí deberías validar y escapar la entrada para prevenir inyecciones SQL
