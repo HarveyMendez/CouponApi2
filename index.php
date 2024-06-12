@@ -271,6 +271,15 @@ if ($_SERVER['REQUEST_URI'] == '/index.php/generateToken' && $_SERVER['REQUEST_M
 
     $nombre_usuario = $data['nombre_usuario']; 
 
+
+    $query0 = "SELECT claveTemp from Claves 
+                WHERE userEmpresa = '$nombre_usuario'";
+
+    if ($resultado0 && $resultado0->rowCount() > 0) {
+        echo json_encode($resultado0->fetchAll());
+        exit();
+    }
+
     
     $query1 = "SELECT id FROM Claves WHERE userEmpresa IS NULL ORDER BY RAND() LIMIT 1;";
     $resultado1 = metodoGet($query1);
