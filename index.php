@@ -155,6 +155,30 @@ if ($_SERVER['REQUEST_URI'] == '/index.php/changeStatusBusiness' && $_SERVER['RE
     exit();
 }
 
+if ($_SERVER['REQUEST_URI'] == '/index.php/cuponPurchase' && $_SERVER['REQUEST_METHOD'] == 'PUT') {
+    $json = file_get_contents('php://input');
+    $data = json_decode($json, true);
+
+        
+    if ($data === null) {
+        // Error al decodificar JSON
+        http_response_code(400); 
+        echo json_encode(['error' => 'Error en los datos JSON']);
+        exit();
+    }
+
+    $codigo = $data['codigo'];
+    $cantidad = $data['cantidad'];
+
+    $query = "UPDATE Cupones 
+                SET cantidad = cantidad-$cantidad 
+                WHERE codigo = '$codigo'";
+
+    $resultado = metodoPut($query);
+    echo json_encode($resultado);
+    exit();
+}
+
 if ($_SERVER['REQUEST_URI'] == '/index.php/updateBusiness' && $_SERVER['REQUEST_METHOD'] == 'PUT') {
     $json = file_get_contents('php://input');
     $data = json_decode($json, true);
@@ -341,6 +365,7 @@ if (strpos($_SERVER['REQUEST_URI'], '/index.php/getCouponUser') !== false && $_S
                         e.ubicacion AS ubicacion_empresa,
                         c.nombre AS nombre_cupon,
                         c.precio,
+                        c.codigo,
                         c.descuento,
                         c.fecha_vencimiento,
                         cat.nombreCategoria AS categoria,
