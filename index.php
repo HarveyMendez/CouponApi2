@@ -288,7 +288,7 @@ if ($_SERVER['REQUEST_URI'] == '/index.php/generateToken' && $_SERVER['REQUEST_M
    
     $query2 = "UPDATE Claves 
                 SET userEmpresa = '$nombre_usuario'
-                WHERE id = :id_aleatorio";
+                WHERE id = '$id_aleatorio'";
     $resultado2 = metodoPut($query2);
 
     
