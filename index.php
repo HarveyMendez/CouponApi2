@@ -275,6 +275,8 @@ if ($_SERVER['REQUEST_URI'] == '/index.php/generateToken' && $_SERVER['REQUEST_M
     $query0 = "SELECT claveTemp from Claves 
                 WHERE userEmpresa = '$nombre_usuario'";
 
+    $resultado0 = metodoGet($query0);
+
     if ($resultado0 && $resultado0->rowCount() > 0) {
         echo json_encode($resultado0->fetchAll());
         exit();
