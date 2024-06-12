@@ -271,26 +271,35 @@ if ($_SERVER['REQUEST_URI'] == '/index.php/generateToken' && $_SERVER['REQUEST_M
 
     $nombre_usuario = $data['nombre_usuario']; 
 
-    $query1 = "UPDATE Empresa 
-                SET contrasena = '$newPasswordBusiness'
-                WHERE nombre_usuario = '$usernameBusiness'";
-
-    $query2 = "UPDATE Claves 
-                SET userEmpresa = NULL 
-                WHERE userEmpresa = '$usernameBusiness'";
-
+    
+    $query1 = "SELECT id FROM Claves ORDER BY RAND() LIMIT 1;";
     $resultado1 = metodoGet($query1);
+    
+    
+    if (!$resultado1) {
+        echo json_encode(['error' => 'Error al obtener el id aleatorio']);
+        exit();
+    }
 
-    $resultado2 = metodoGet($query2);
+    
+    $row = $resultado1->fetch(PDO::FETCH_ASSOC);
+    $id_aleatorio = $row['id'];
 
-        if ($resultado1 === false || $resultado2 === false) {
-            echo json_encode(['nombre_usuario' => '', 'contrasenna' => '']);
-        } else {
-            echo json_encode(['message' => 'Contraseña actualizada y usuario desvinculado correctamente']);
-        }
+   
+    $query2 = "UPDATE Claves 
+                SET userEmpresa = '$nombre_usuario'
+                WHERE id = :id_aleatorio";
+    $resultado2 = metodoPut($query2);
 
+    
+    if ($resultado2) {
+        echo json_encode(['message' => 'token generado']);
+    } else {
+        echo json_encode(['error' => 'Error al asignar el nombre de usuario al token']);
+    }
     exit();
 }
+
 
 if ($_SERVER['REQUEST_URI'] == '/index.php/businessLogin' && $_SERVER['REQUEST_METHOD'] == 'POST') {
 
