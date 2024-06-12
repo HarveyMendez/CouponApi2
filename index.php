@@ -400,6 +400,7 @@ if (strpos($_SERVER['REQUEST_URI'], '/index.php/getCoupon') !== false && $_SERVE
 if ($_SERVER['REQUEST_URI'] == '/index.php/getUserCoupon' && $_SERVER['REQUEST_METHOD'] == 'GET') {
     
         $query = "SELECT 
+                        e.id,
                         e.nombre_empresa,
                         e.ubicacion AS ubicacion_empresa,
                         c.nombre AS nombre_cupon,
