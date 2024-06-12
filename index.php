@@ -49,10 +49,19 @@ if ($_SERVER['REQUEST_URI'] == '/index.php/newCoupon' && $_SERVER['REQUEST_METHO
         exit();
     }
 
+    $timestamp = date('YmdHis');
+
+    // Parte aleatoria
+    $randomString = substr(md5(uniqid(mt_rand(), true)), 0, 6);
+
+    // Combina las dos partes
+    $uniqueCode = $timestamp . $randomString;
+
     $nombre_usuario = $data['nombre_usuario'];
     $fecha_creacion = date('Y-m-d');
     $fecha_inicio = $data['fechaInicio'];
     $fecha_vencimiento = $data['fechaVencimiento'];
+    $codigo = $uniqueCode;
     $nombre = $data['nombre'];
     $precio = $data['precio'];
     $estado = $data['estado'];
@@ -62,7 +71,7 @@ if ($_SERVER['REQUEST_URI'] == '/index.php/newCoupon' && $_SERVER['REQUEST_METHO
 
     // Aquí deberías sanitizar y validar tus datos antes de usarlos en la consulta SQL
 
-    $query = "INSERT INTO Cupones(usuarioEmpresa, fecha_creacion, fecha_inicio, fecha_vencimiento, nombre, precio, estado, categoria, cantidad, descuento) VALUES( '$nombre_usuario', '$fecha_creacion', '$fecha_inicio', '$fecha_vencimiento', '$nombre', '$precio', '$estado', '$categoria', '$cantidad', '$descuento')";
+    $query = "INSERT INTO Cupones(usuarioEmpresa, fecha_creacion, fecha_inicio, fecha_vencimiento, nombre, precio, estado, categoria, cantidad, descuento, image, codigo) VALUES( '$nombre_usuario', '$fecha_creacion', '$fecha_inicio', '$fecha_vencimiento', '$nombre', '$precio', '$estado', '$categoria', '$cantidad', '$descuento', NULL, '$codigo')";
     $resultado = metodoPost($query);
     echo json_encode($resultado);
     exit();
