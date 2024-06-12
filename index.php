@@ -402,9 +402,7 @@ if (strpos($_SERVER['REQUEST_URI'], '/index.php/getUserCoupon') !== false && $_S
         
 
 
-        if (isset($_GET['usuarioEmpresa'])) {
-        
-            // Aquí deberías validar y escapar la entrada para prevenir inyecciones SQL
+        if (isset($_GET['id'])) {
             $id = $_GET['id'];
             $query = "SELECT 
                         c.id,
@@ -456,10 +454,8 @@ if (strpos($_SERVER['REQUEST_URI'], '/index.php/getUserCoupon') !== false && $_S
 if (strpos($_SERVER['REQUEST_URI'], '/index.php/getCategories') !== false && $_SERVER['REQUEST_METHOD'] == 'GET') {
     
     if (isset($_GET['id'])) {
-        
-        // Aquí deberías validar y escapar la entrada para prevenir inyecciones SQL
         $idCategoria = $_GET['id'];
-        $query = "SELECT * FROM Categorias WHERE id='$id'";
+        $query = "SELECT * FROM Categorias WHERE id='$idCategoria'";
         $resultado = metodoGet($query);
         echo json_encode($resultado->fetchAll());
     } else {
