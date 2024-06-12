@@ -360,15 +360,8 @@ if (strpos($_SERVER['REQUEST_URI'], '/index.php/getCoupon') !== false && $_SERVE
     exit();
 }
 
-if (strpos($_SERVER['REQUEST_URI'], '/index.php/getCouponUser') !== false && $_SERVER['REQUEST_METHOD'] == 'GET') {
+if ($_SERVER['REQUEST_URI'] == '/index.php/getCouponUser' && $_SERVER['REQUEST_METHOD'] == 'GET') {
     
-    if (isset($_GET['usuarioEmpresa'])) {
-        // Aquí deberías validar y escapar la entrada para prevenir inyecciones SQL
-        $usuarioEmpresa = $_GET['usuarioEmpresa'];
-        $query = "SELECT * FROM Cupones WHERE usuarioEmpresa='$usuarioEmpresa'";
-        $resultado = metodoGet($query);
-        echo json_encode($resultado->fetchAll());
-    } else {
         $query = "SELECT 
                         e.nombre_empresa,
                         e.ubicacion AS ubicacion_empresa,
@@ -384,11 +377,11 @@ if (strpos($_SERVER['REQUEST_URI'], '/index.php/getCouponUser') !== false && $_S
                     JOIN 
                         Cupones c ON e.nombre_usuario = c.usuarioEmpresa
                     JOIN 
-                        Categorias cat ON c.categoria = cat.id;";
+                        Categorias cat ON c.categoria = cat.id
+                        WHERE c.estado=true";
         $resultado = metodoGet($query);
         echo json_encode($resultado->fetchAll());
 
-    }
     exit();
 }
 
