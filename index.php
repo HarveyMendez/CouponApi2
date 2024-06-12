@@ -291,9 +291,14 @@ if ($_SERVER['REQUEST_URI'] == '/index.php/generateToken' && $_SERVER['REQUEST_M
                 WHERE id = '$id_aleatorio'";
     $resultado2 = metodoPut($query2);
 
+    $query3 = "SELECT claveTemp FROM Claves
+                    WHERE userEmpresa = '$nombre_usuario'";
+
+    $resultado3 = metodoGet($query3);
+
     
-    if ($resultado2) {
-        echo json_encode(['message' => 'token generado']);
+    if ($resultado3) {
+        echo json_encode($resultado->fetch());
     } else {
         echo json_encode(['error' => 'Error al asignar el nombre de usuario al token']);
     }
