@@ -226,6 +226,39 @@ if ($_SERVER['REQUEST_URI'] == '/index.php/changePassword' && $_SERVER['REQUEST_
     exit();
 }
 
+if ($_SERVER['REQUEST_URI'] == '/index.php/generateToken' && $_SERVER['REQUEST_METHOD'] == 'POST') {
+    $json = file_get_contents('php://input');
+    $data = json_decode($json, true);
+    if ($data === null) {
+        // Error al decodificar JSON
+        http_response_code(400); 
+        echo json_encode(['error' => 'Error en los datos JSON']);
+        exit();
+    }
+
+    $nombre_usuario = $data['nombre_usuario']; 
+
+    $query1 = "UPDATE Empresa 
+                SET contrasena = '$newPasswordBusiness'
+                WHERE nombre_usuario = '$usernameBusiness'";
+
+    $query2 = "UPDATE Claves 
+                SET userEmpresa = NULL 
+                WHERE userEmpresa = '$usernameBusiness'";
+
+    $resultado1 = metodoGet($query1);
+
+    $resultado2 = metodoGet($query2);
+
+        if ($resultado1 === false || $resultado2 === false) {
+            echo json_encode(['nombre_usuario' => '', 'contrasenna' => '']);
+        } else {
+            echo json_encode(['message' => 'Contraseña actualizada y usuario desvinculado correctamente']);
+        }
+
+    exit();
+}
+
 if ($_SERVER['REQUEST_URI'] == '/index.php/businessLogin' && $_SERVER['REQUEST_METHOD'] == 'POST') {
 
         $json = file_get_contents('php://input');
@@ -294,6 +327,37 @@ if (strpos($_SERVER['REQUEST_URI'], '/index.php/getCoupon') !== false && $_SERVE
     exit();
 }
 
+if (strpos($_SERVER['REQUEST_URI'], '/index.php/getCouponUser') !== false && $_SERVER['REQUEST_METHOD'] == 'GET') {
+    
+    if (isset($_GET['usuarioEmpresa'])) {
+        // Aquí deberías validar y escapar la entrada para prevenir inyecciones SQL
+        $usuarioEmpresa = $_GET['usuarioEmpresa'];
+        $query = "SELECT * FROM Cupones WHERE usuarioEmpresa='$usuarioEmpresa'";
+        $resultado = metodoGet($query);
+        echo json_encode($resultado->fetchAll());
+    } else {
+        $query = "SELECT 
+                        e.nombre_empresa,
+                        e.ubicacion AS ubicacion_empresa,
+                        c.nombre AS nombre_cupon,
+                        c.precio,
+                        c.descuento,
+                        c.fecha_vencimiento,
+                        cat.nombreCategoria AS categoria,
+                        c.image
+                    FROM 
+                        Empresa e
+                    JOIN 
+                        Cupones c ON e.nombre_usuario = c.usuarioEmpresa
+                    JOIN 
+                        Categorias cat ON c.categoria = cat.id;";
+        $resultado = metodoGet($query);
+        echo json_encode($resultado->fetchAll());
+
+    }
+    exit();
+}
+
 if (strpos($_SERVER['REQUEST_URI'], '/index.php/getCategories') !== false && $_SERVER['REQUEST_METHOD'] == 'GET') {
     
     if (isset($_GET['id'])) {
@@ -329,7 +393,7 @@ if (strpos($_SERVER['REQUEST_URI'], '/index.php/getBusiness') !== false && $_SER
     exit();
 }
 
-echo "¡Hola Mundo!";
+
 
 
 
