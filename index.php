@@ -360,7 +360,7 @@ if (strpos($_SERVER['REQUEST_URI'], '/index.php/getCoupon') !== false && $_SERVE
     exit();
 }
 
-if ($_SERVER['REQUEST_URI'] == '/index.php/getCouponUser' && $_SERVER['REQUEST_METHOD'] == 'GET') {
+if ($_SERVER['REQUEST_URI'] == '/index.php/getUserCoupon' && $_SERVER['REQUEST_METHOD'] == 'GET') {
     
         $query = "SELECT 
                         e.nombre_empresa,
