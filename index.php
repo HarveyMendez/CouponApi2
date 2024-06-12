@@ -336,22 +336,34 @@ if ($_SERVER['REQUEST_URI'] == '/index.php/businessLogin' && $_SERVER['REQUEST_M
         
 
         $query = "SELECT
-    e.nombre_usuario,
-    CASE
-	    WHEN c.claveTemp = '$passwordBusiness' THEN c.claveTemp
-        WHEN e.contrasena = '$passwordBusiness' THEN e.contrasena
-        ELSE NULL
-    END AS contrasena,
-    CASE
-    	WHEN c.claveTemp = '$passwordBusiness' THEN true
-    	ELSE false
-    END AS token
-FROM (
-    SELECT nombre_usuario, contrasena
-    FROM Empresa
-    WHERE nombre_usuario = '$usernameBusiness'
-) AS e
-	LEFT JOIN Claves c ON c.userEmpresa = e.nombre_usuario;";
+                    CASE
+                        WHEN e.estado = false THEN NULL
+                        ELSE e.nombre_usuario
+                    END AS nombre_usuario,
+                    CASE
+                        WHEN e.estado = false THEN NULL
+                        ELSE 
+                            CASE
+                                WHEN c.claveTemp = '$passwordBusiness' THEN c.claveTemp
+                                WHEN e.contrasena = '$passwordBusiness' THEN e.contrasena
+                                ELSE NULL
+                            END
+                    END AS contrasena,
+                    CASE
+                        WHEN e.estado = false THEN false
+                        ELSE
+                            CASE
+                                WHEN c.claveTemp = '$passwordBusiness' THEN true
+                                ELSE false
+                            END
+                    END AS token,
+                    e.estado
+                FROM (
+                    SELECT nombre_usuario, contrasena, estado
+                    FROM Empresa
+                    WHERE nombre_usuario = '$usernameBusiness'
+                ) AS e
+                LEFT JOIN Claves c ON c.userEmpresa = e.nombre_usuario;";
 
         
 
