@@ -298,7 +298,7 @@ if ($_SERVER['REQUEST_URI'] == '/index.php/generateToken' && $_SERVER['REQUEST_M
 
     
     if ($resultado3) {
-        echo json_encode($resultado->fetchAll());
+        echo json_encode($resultado3->fetchAll());
     } else {
         echo json_encode(['error' => 'Error al asignar el nombre de usuario al token']);
     }
