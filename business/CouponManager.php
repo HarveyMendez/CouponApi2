@@ -69,8 +69,6 @@ class CouponManager {
     }
 
     public function agregarCupon($data) {
-        // Validar y manipular los datos aquí
-        // Ejemplo de cómo podrías hacerlo:
 
         $timestamp = date('YmdHis');
         $randomString = substr(md5(uniqid(mt_rand(), true)), 0, 6);
@@ -89,17 +87,14 @@ class CouponManager {
         $descuento = $data['descuento'];
         $imagen = $data['image'];
 
-        // Ejecutar la consulta para insertar el cupón en la base de datos
-        $query = "INSERT INTO Cupones(usuarioEmpresa, fecha_creacion, fecha_inicio, fecha_vencimiento, nombre, precio, estado, categoria, cantidad, descuento, image, codigo) VALUES( '$nombre_usuario', '$fecha_creacion', '$fecha_inicio', '$fecha_vencimiento', '$nombre', '$precio', '$estado', '$categoria', '$cantidad', '$descuento', $imagen, '$codigo')";
+        $query = "INSERT INTO Cupones(usuarioEmpresa, fecha_creacion, fecha_inicio, fecha_vencimiento, nombre, precio, estado, categoria, cantidad, descuento, image, codigo) VALUES( '$nombre_usuario', '$fecha_creacion', '$fecha_inicio', '$fecha_vencimiento', '$nombre', '$precio', '$estado', '$categoria', '$cantidad', '$descuento', '$imagen', '$codigo')";
 
-        $resultado = metodoPost($query); // Llamar al método de la capa de acceso a datos
+        $resultado = metodoPost($query);
 
         return $resultado;
     }
 
     public function actualizarCupon($data) {
-        // Validar y manipular los datos si es necesario
-        // Ejemplo de actualización en la base de datos
         $nombre_usuario = $data['nombre_usuario'];
         $fecha_inicio = $data['fechaInicio'];
         $fecha_vencimiento = $data['fechaVencimiento'];
@@ -127,7 +122,6 @@ class CouponManager {
     }
 
     public function cambiarEstadoCupon($data) {
-        // Validar y manipular los datos si es necesario
         $usuarioEmpresa = $data['nombre_usuario'];
         $nombreCupon = $data['nombre'];
 
@@ -139,7 +133,6 @@ class CouponManager {
     }
 
     public function comprarCupon($data) {
-        // Validar y manipular los datos si es necesario
         $codigo = $data['codigo'];
         $cantidad = $data['cantidad'];
 

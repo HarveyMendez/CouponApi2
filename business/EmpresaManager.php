@@ -3,7 +3,7 @@ include_once 'data/Database.php';
 
 class EmpresaManager {
     public function insertEmpresa($data) {
-        // Validación y sanitización de los datos
+
         if ($data === null) {
             return ['error' => 'Error en los datos JSON'];
         }
@@ -16,8 +16,6 @@ class EmpresaManager {
         $correo_electronico = $data['correo_electronico'];
         $telefono = $data['telefono'];
         $ubicacion = $data['ubicacion'];
-
-        // Aquí deberías sanitizar y validar tus datos antes de usarlos en la consulta SQL
 
         $query = "INSERT INTO Empresa (nombre_empresa, nombre_usuario, direccion_fisica, cedula, fecha_creacion, correo_electronico, telefono, contrasena, ubicacion, estado)
                   VALUES('$nombre_empresa', '$nombre_usuario', '$direccion_fisica', '$cedula', '$fecha_creacion', '$correo_electronico', '$telefono', 'sincontraseña', '$ubicacion', 'true')";
@@ -37,7 +35,6 @@ class EmpresaManager {
     }
 
     public function cambiarEstadoEmpresa($data) {
-        // Validar y manipular los datos si es necesario
         $usuarioEmpresa = $data['nombre_usuario'];
 
         $query = "UPDATE Empresa 
@@ -48,7 +45,6 @@ class EmpresaManager {
     }
 
     public function actualizarEmpresa($data) {
-        // Validar y manipular los datos si es necesario
         $nombre_usuario = $data['nombre_usuario'];
         $nombre_empresa = $data['nombre_empresa'];
         $direccion_fisica = $data['direccion_fisica'];
@@ -70,7 +66,6 @@ class EmpresaManager {
     }
 
     public function cambiarContrasena($data) {
-        // Validar y manipular los datos si es necesario
         $usernameBusiness = $data['username']; 
         $newPasswordBusiness = $data['password'];
 

@@ -26,18 +26,16 @@ if ($_SERVER['REQUEST_URI'] == '/index.php/insertEmpresa' && $_SERVER['REQUEST_M
 }
 
 if ($_SERVER['REQUEST_URI'] == '/index.php/newCoupon' && $_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Obtener los datos del cuerpo de la solicitud
+
     $json = file_get_contents('php://input');
     $data = json_decode($json, true);
 
-    // Validar el JSON
     if ($data === null) {
         http_response_code(400); 
         echo json_encode(['error' => 'Error en los datos JSON']);
         exit();
     }
 
-    // Llamar al método de la capa de negocio para agregar un nuevo cupón
     $resultado = $couponManager->agregarCupon($data);
 
     echo json_encode($resultado);
@@ -144,7 +142,6 @@ if ($_SERVER['REQUEST_URI'] == '/index.php/generateToken' && $_SERVER['REQUEST_M
     $json = file_get_contents('php://input');
     $data = json_decode($json, true);
     if ($data === null) {
-        // Error al decodificar JSON
         http_response_code(400); 
         echo json_encode(['error' => 'Error en los datos JSON']);
         exit();
@@ -163,7 +160,6 @@ if ($_SERVER['REQUEST_URI'] == '/index.php/businessLogin' && $_SERVER['REQUEST_M
 
         
         if ($data === null) {
-            // Error al decodificar JSON
             http_response_code(400); 
             echo json_encode(['error' => 'Error en los datos JSON']);
             exit();
