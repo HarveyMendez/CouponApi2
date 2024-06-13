@@ -109,6 +109,7 @@ class CouponManager {
         $categoria = $data['categoria'];
         $cantidad = $data['cantidad'];
         $descuento = $data['descuento'];
+        $imagen = $data['image'];
 
         $query = "UPDATE Cupones 
                     SET fecha_inicio = '$fecha_inicio', 
@@ -118,7 +119,8 @@ class CouponManager {
                         estado = '$estado', 
                         categoria = '$categoria', 
                         cantidad = '$cantidad', 
-                        descuento = '$descuento'
+                        descuento = '$descuento',
+                        image = '$imagen'
                     WHERE usuarioEmpresa = '$nombre_usuario' 
                         AND nombre = '$nombre'";
         return metodoPut($query);
