@@ -1,38 +1,26 @@
 <?php
-include 'data/Database.php';
+include 'business/EmpresaManager.php';
 
 
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: PUT, GET, POST, DELETE, OPTIONS");
 header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept, Authorization");
 
-if ($_SERVER['REQUEST_URI'] == '/index.php/insertEmpresa' && $_SERVER['REQUEST_METHOD'] == 'POST') {
+$empresaService = new EmpresaManager();
 
+if ($_SERVER['REQUEST_URI'] == '/index.php/insertEmpresa' && $_SERVER['REQUEST_METHOD'] == 'POST') {
     $json = file_get_contents('php://input');
     $data = json_decode($json, true);
-    if ($data === null) {
-        // Error al decodificar JSON
-        http_response_code(400); 
-        echo json_encode(['error' => 'Error en los datos JSON']);
-        exit();
+    
+    $resultado = $empresaService->insertEmpresa($data);
+    
+    if (isset($resultado['error'])) {
+        http_response_code(400);
+        echo json_encode($resultado);
+    } else {
+        echo json_encode($resultado);
     }
     
-    $nombre_empresa = $data['nombre_empresa'];
-    $nombre_usuario = $data['nombre_usuario'];
-    $direccion_fisica = $data['direccion_fisica'];
-    $cedula = $data['cedula'];
-    $fecha_creacion = date('Y-m-d');
-    $correo_electronico = $data['correo_electronico'];
-    $telefono = $data['telefono'];
-    $ubicacion = $data['ubicacion'];
-    
-
-    // Aquí deberías sanitizar y validar tus datos antes de usarlos en la consulta SQL
-
-    $query = "INSERT INTO Empresa (nombre_empresa, nombre_usuario, direccion_fisica, cedula, fecha_creacion, correo_electronico, telefono, contrasena, ubicacion, estado)
-                 VALUES('$nombre_empresa', '$nombre_usuario', '$direccion_fisica', '$cedula', '$fecha_creacion', '$correo_electronico', '$telefono', 'sincontraseña', '$ubicacion', 'true')";
-    $resultado = metodoPost($query);
-    echo json_encode($resultado);
     exit();
 }
 
