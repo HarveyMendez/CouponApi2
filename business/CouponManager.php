@@ -87,9 +87,10 @@ class CouponManager {
         $categoria = $data['categoria'];
         $cantidad = $data['cantidad'];
         $descuento = $data['descuento'];
+        $imagen = $data['image'];
 
         // Ejecutar la consulta para insertar el cupón en la base de datos
-        $query = "INSERT INTO Cupones(usuarioEmpresa, fecha_creacion, fecha_inicio, fecha_vencimiento, nombre, precio, estado, categoria, cantidad, descuento, image, codigo) VALUES( '$nombre_usuario', '$fecha_creacion', '$fecha_inicio', '$fecha_vencimiento', '$nombre', '$precio', '$estado', '$categoria', '$cantidad', '$descuento', NULL, '$codigo')";
+        $query = "INSERT INTO Cupones(usuarioEmpresa, fecha_creacion, fecha_inicio, fecha_vencimiento, nombre, precio, estado, categoria, cantidad, descuento, image, codigo) VALUES( '$nombre_usuario', '$fecha_creacion', '$fecha_inicio', '$fecha_vencimiento', '$nombre', '$precio', '$estado', '$categoria', '$cantidad', '$descuento', $imagen, '$codigo')";
 
         $resultado = metodoPost($query); // Llamar al método de la capa de acceso a datos
 
