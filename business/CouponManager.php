@@ -52,7 +52,7 @@ class CouponManager {
                         Cupones c ON e.nombre_usuario = c.usuarioEmpresa
                     JOIN 
                         Categorias cat ON c.categoria = cat.id
-                    WHERE c.estado=true and c.cantidad > 0";
+                    WHERE c.estado=true and c.cantidad > 0 and e.estado = 1";
         }
         $resultado = metodoGet($query);
         return $resultado->fetchAll();
