@@ -1,5 +1,5 @@
 <?php
-include 'data/Database.php';
+include_once 'data/Database.php';
 
 class CouponManager {
     public function getCoupon($usuarioEmpresa = null) {
@@ -66,6 +66,61 @@ class CouponManager {
         }
         $resultado = metodoGet($query);
         return $resultado->fetchAll();
+    }
+
+    public function agregarCupon($data) {
+        // Validar y manipular los datos aquí
+        // Ejemplo de cómo podrías hacerlo:
+
+        $timestamp = date('YmdHis');
+        $randomString = substr(md5(uniqid(mt_rand(), true)), 0, 6);
+        $uniqueCode = $timestamp . $randomString;
+
+        $nombre_usuario = $data['nombre_usuario'];
+        $fecha_creacion = date('Y-m-d');
+        $fecha_inicio = $data['fechaInicio'];
+        $fecha_vencimiento = $data['fechaVencimiento'];
+        $codigo = $uniqueCode;
+        $nombre = $data['nombre'];
+        $precio = $data['precio'];
+        $estado = $data['estado'];
+        $categoria = $data['categoria'];
+        $cantidad = $data['cantidad'];
+        $descuento = $data['descuento'];
+
+        // Ejecutar la consulta para insertar el cupón en la base de datos
+        $query = "INSERT INTO Cupones(usuarioEmpresa, fecha_creacion, fecha_inicio, fecha_vencimiento, nombre, precio, estado, categoria, cantidad, descuento, image, codigo) VALUES( '$nombre_usuario', '$fecha_creacion', '$fecha_inicio', '$fecha_vencimiento', '$nombre', '$precio', '$estado', '$categoria', '$cantidad', '$descuento', NULL, '$codigo')";
+
+        $resultado = metodoPost($query); // Llamar al método de la capa de acceso a datos
+
+        return $resultado;
+    }
+
+    public function actualizarCupon($data) {
+        // Validar y manipular los datos si es necesario
+        // Ejemplo de actualización en la base de datos
+        $nombre_usuario = $data['nombre_usuario'];
+        $fecha_inicio = $data['fechaInicio'];
+        $fecha_vencimiento = $data['fechaVencimiento'];
+        $nombre = $data['nombre'];
+        $precio = $data['precio'];
+        $estado = $data['estado'];
+        $categoria = $data['categoria'];
+        $cantidad = $data['cantidad'];
+        $descuento = $data['descuento'];
+
+        $query = "UPDATE Cupones 
+                    SET fecha_inicio = '$fecha_inicio', 
+                        fecha_vencimiento = '$fecha_vencimiento', 
+                        nombre = '$nombre', 
+                        precio = '$precio', 
+                        estado = '$estado', 
+                        categoria = '$categoria', 
+                        cantidad = '$cantidad', 
+                        descuento = '$descuento'
+                    WHERE usuarioEmpresa = '$nombre_usuario' 
+                        AND nombre = '$nombre'";
+        return metodoPut($query);
     }
 
 }

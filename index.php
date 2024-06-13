@@ -1,16 +1,14 @@
 <?php
-//include 'business/EmpresaManager.php';
-//include 'business/CouponManager.php';
-include 'data/Database.php';
+include_once 'business/EmpresaManager.php';
+include_once 'business/CouponManager.php';
+include_once 'data/Database.php';
 
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: PUT, GET, POST, DELETE, OPTIONS");
 header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept, Authorization");
 
-//$empresaService = new EmpresaManager();
-//$couponService = new CouponManager();
-/*
-
+$empresaService = new EmpresaManager();
+$couponService = new CouponManager();
 
 if ($_SERVER['REQUEST_URI'] == '/index.php/insertEmpresa' && $_SERVER['REQUEST_METHOD'] == 'POST') {
     $json = file_get_contents('php://input');
@@ -28,45 +26,21 @@ if ($_SERVER['REQUEST_URI'] == '/index.php/insertEmpresa' && $_SERVER['REQUEST_M
     exit();
 }
 
-*/
-
 if ($_SERVER['REQUEST_URI'] == '/index.php/newCoupon' && $_SERVER['REQUEST_METHOD'] == 'POST') {
-
+    // Obtener los datos del cuerpo de la solicitud
     $json = file_get_contents('php://input');
     $data = json_decode($json, true);
 
-        
+    // Validar el JSON
     if ($data === null) {
-        // Error al decodificar JSON
         http_response_code(400); 
         echo json_encode(['error' => 'Error en los datos JSON']);
         exit();
     }
 
-    $timestamp = date('YmdHis');
+    // Llamar al método de la capa de negocio para agregar un nuevo cupón
+    $resultado = $couponService->agregarCupon($data);
 
-    // Parte aleatoria
-    $randomString = substr(md5(uniqid(mt_rand(), true)), 0, 6);
-
-    // Combina las dos partes
-    $uniqueCode = $timestamp . $randomString;
-
-    $nombre_usuario = $data['nombre_usuario'];
-    $fecha_creacion = date('Y-m-d');
-    $fecha_inicio = $data['fechaInicio'];
-    $fecha_vencimiento = $data['fechaVencimiento'];
-    $codigo = $uniqueCode;
-    $nombre = $data['nombre'];
-    $precio = $data['precio'];
-    $estado = $data['estado'];
-    $categoria = $data['categoria'];
-    $cantidad = $data['cantidad'];
-    $descuento = $data['descuento'];
-
-    // Aquí deberías sanitizar y validar tus datos antes de usarlos en la consulta SQL
-
-    $query = "INSERT INTO Cupones(usuarioEmpresa, fecha_creacion, fecha_inicio, fecha_vencimiento, nombre, precio, estado, categoria, cantidad, descuento, image, codigo) VALUES( '$nombre_usuario', '$fecha_creacion', '$fecha_inicio', '$fecha_vencimiento', '$nombre', '$precio', '$estado', '$categoria', '$cantidad', '$descuento', NULL, '$codigo')";
-    $resultado = metodoPost($query);
     echo json_encode($resultado);
     exit();
 }
@@ -75,38 +49,14 @@ if ($_SERVER['REQUEST_URI'] == '/index.php/updateCupon' && $_SERVER['REQUEST_MET
     $json = file_get_contents('php://input');
     $data = json_decode($json, true);
 
-        
     if ($data === null) {
-        // Error al decodificar JSON
         http_response_code(400); 
         echo json_encode(['error' => 'Error en los datos JSON']);
         exit();
     }
     
-    $nombre_usuario = $data['nombre_usuario'];
-    $fecha_inicio = $data['fechaInicio'];
-    $fecha_vencimiento = $data['fechaVencimiento'];
-    $nombre = $data['nombre'];
-    $precio = $data['precio'];
-    $estado = $data['estado'];
-    $categoria = $data['categoria'];
-    $cantidad = $data['cantidad'];
-    $descuento = $data['descuento'];
+    $resultado = $couponService->actualizarCupon($data);
 
-    //validar antes de hacer la consulta
-
-    $query = "UPDATE Cupones 
-                SET fecha_inicio = '$fecha_inicio', 
-                    fecha_vencimiento = '$fecha_vencimiento', 
-                    nombre = '$nombre', 
-                    precio = '$precio', 
-                    estado = '$estado', 
-                    categoria = '$categoria', 
-                    cantidad = '$cantidad', 
-                    descuento = '$descuento'
-                WHERE usuarioEmpresa = '$nombre_usuario' 
-                    AND nombre = '$nombre'";
-    $resultado = metodoPut($query);
     echo json_encode($resultado);
     exit();
 }
@@ -373,15 +323,6 @@ if ($_SERVER['REQUEST_URI'] == '/index.php/businessLogin' && $_SERVER['REQUEST_M
         exit();
 }
 
-/*
-// Manejar solicitud para obtener cupones
-if (strpos($_SERVER['REQUEST_URI'], '/index.php/getCoupon') !== false && $_SERVER['REQUEST_METHOD'] == 'GET') {
-    $usuarioEmpresa = $_GET['usuarioEmpresa'] ?? null;
-    $resultado = $couponService->getCoupon($usuarioEmpresa);
-    echo json_encode($resultado);
-    exit();
-}
-
 // Manejar solicitud para obtener categorías
 if (strpos($_SERVER['REQUEST_URI'], '/index.php/getCategories') !== false && $_SERVER['REQUEST_METHOD'] == 'GET') {
     $idCategoria = $_GET['id'] ?? null;
@@ -397,11 +338,16 @@ if (strpos($_SERVER['REQUEST_URI'], '/index.php/getBusiness') !== false && $_SER
     echo json_encode($resultado);
     exit();
 }
+
+// Manejar solicitud para obtener cupones
+if (strpos($_SERVER['REQUEST_URI'], '/index.php/getCoupon') !== false && $_SERVER['REQUEST_METHOD'] == 'GET') {
+    $usuarioEmpresa = $_GET['usuarioEmpresa'] ?? null;
+    $resultado = $couponService->getCoupon($usuarioEmpresa);
+    echo json_encode($resultado);
+    exit();
+}
     
 
-*/
-
-// Manejar solicitud para obtener cupones de usuario
 if (strpos($_SERVER['REQUEST_URI'], '/index.php/getUserCoupon') !== false && $_SERVER['REQUEST_METHOD'] == 'GET') {
     if (isset($_GET['id'])) {
         $id = $_GET['id'];
