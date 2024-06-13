@@ -1,5 +1,5 @@
 <?php
-include_once '../data/Database.php';
+include_once 'data/Database.php';
 
 class CouponManager {
     public function getCoupon($usuarioEmpresa = null) {
@@ -69,3 +69,4 @@ class CouponManager {
     }
 
 }
+?>

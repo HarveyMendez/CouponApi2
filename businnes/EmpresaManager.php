@@ -1,5 +1,5 @@
 <?php
-include_once '../data/Database.php';
+include_once 'data/Database.php';
 
 class EmpresaManager {
     public function insertEmpresa($data) {
@@ -37,3 +37,4 @@ class EmpresaManager {
     }
 
 }
+?>
