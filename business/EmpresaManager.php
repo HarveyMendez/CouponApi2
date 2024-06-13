@@ -102,36 +102,41 @@ class EmpresaManager {
     $resultado0 = metodoGet($query0);
 
     if ($resultado0 && $resultado0->rowCount() > 0) {
-        return json_encode($resultado0->fetchAll());
+        return $resultado0->fetchAll();
     }
 
     
     $query1 = "SELECT id FROM Claves WHERE userEmpresa IS NULL ORDER BY RAND() LIMIT 1;";
     $resultado1 = metodoGet($query1);
-    
-    
     if (!$resultado1) {
-        return json_encode(['error' => 'Error al obtener el id aleatorio']);
+        return ['error' => 'Error al obtener el id aleatorio'];
     }
 
-    
     $row = $resultado1->fetch(PDO::FETCH_ASSOC);
     $id_aleatorio = $row['id'];
 
    
     $query2 = "UPDATE Claves 
                 SET userEmpresa = '$nombre_usuario'
-                WHERE id = '$id_aleatorio'";
+                    WHERE id = '$id_aleatorio'";
     $resultado2 = metodoPut($query2);
 
     $query3 = "SELECT claveTemp FROM Claves
                     WHERE userEmpresa = '$nombre_usuario'";
 
     $resultado3 = metodoGet($query3);
+    $resultado3->fetchAll();
+
+    $query4 = "UPDATE Empresa 
+                    SET contrasena = '$resultado3'
+                    WHERE nombre_usuario = '$nombre_usuario'";
+
+    $resultado4 = metodoPut($query4);  
 
     
+    
     if ($resultado3) {
-        return $resultado3->fetchAll();
+        return $resultado3;
     } else {
         return ['error' => 'Error al asignar el nombre de usuario al token'];
     }
