@@ -131,9 +131,9 @@ class EmpresaManager {
 
     
     if ($resultado3) {
-        return json_encode($resultado3->fetchAll());
+        return $resultado3->fetchAll();
     } else {
-        return json_encode(['error' => 'Error al asignar el nombre de usuario al token']);
+        return ['error' => 'Error al asignar el nombre de usuario al token'];
     }
     }
 
