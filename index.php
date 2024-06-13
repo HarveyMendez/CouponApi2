@@ -1,6 +1,6 @@
 <?php
-include 'business/EmpresaManager.php';
-include 'business/CuponManager.php';
+include '../business/EmpresaManager.php';
+include '../business/CuponManager.php';
 require '../data/Database.php';
 
 header("Access-Control-Allow-Origin: *");
