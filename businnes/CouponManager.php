@@ -1,5 +1,5 @@
 <?php
-require_once 'data/Database.php';
+include_once 'data/Database.php';
 
 class CouponManager {
     public function getCoupon($usuarioEmpresa = null) {
@@ -52,7 +52,7 @@ class CouponManager {
                         Cupones c ON e.nombre_usuario = c.usuarioEmpresa
                     JOIN 
                         Categorias cat ON c.categoria = cat.id
-                    WHERE c.estado=true";
+                    WHERE c.estado=true and c.cantidad > 0";
         }
         $resultado = metodoGet($query);
         return $resultado->fetchAll();
@@ -68,14 +68,5 @@ class CouponManager {
         return $resultado->fetchAll();
     }
 
-    public function getBusiness($usuarioEmpresa = null) {
-        if ($usuarioEmpresa) {
-            $query = "SELECT * FROM Empresa WHERE nombre_usuario='$usuarioEmpresa'";
-        } else {
-            $query = "SELECT * FROM Empresa";
-        }
-        $resultado = metodoGet($query);
-        return $resultado->fetchAll();
-    }
 }
 ?>

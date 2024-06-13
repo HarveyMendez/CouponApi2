@@ -26,7 +26,15 @@ class EmpresaManager {
         return $resultado;
     }
 
-    
+    public function getBusiness($usuarioEmpresa = null) {
+        if ($usuarioEmpresa) {
+            $query = "SELECT * FROM Empresa WHERE nombre_usuario='$usuarioEmpresa'";
+        } else {
+            $query = "SELECT * FROM Empresa";
+        }
+        $resultado = metodoGet($query);
+        return $resultado->fetchAll();
+    }
 
 }
 ?>
