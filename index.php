@@ -1,14 +1,16 @@
 <?php
-include 'business/EmpresaManager.php';
-include 'business/CouponManager.php';
+//include 'business/EmpresaManager.php';
+//include 'business/CouponManager.php';
 include 'data/Database.php';
 
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: PUT, GET, POST, DELETE, OPTIONS");
 header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept, Authorization");
 
-$empresaService = new EmpresaManager();
-$couponService = new CouponManager();
+//$empresaService = new EmpresaManager();
+//$couponService = new CouponManager();
+/*
+
 
 if ($_SERVER['REQUEST_URI'] == '/index.php/insertEmpresa' && $_SERVER['REQUEST_METHOD'] == 'POST') {
     $json = file_get_contents('php://input');
@@ -25,6 +27,8 @@ if ($_SERVER['REQUEST_URI'] == '/index.php/insertEmpresa' && $_SERVER['REQUEST_M
     
     exit();
 }
+
+*/
 
 if ($_SERVER['REQUEST_URI'] == '/index.php/newCoupon' && $_SERVER['REQUEST_METHOD'] == 'POST') {
 
@@ -369,6 +373,7 @@ if ($_SERVER['REQUEST_URI'] == '/index.php/businessLogin' && $_SERVER['REQUEST_M
         exit();
 }
 
+/*
 // Manejar solicitud para obtener cupones
 if (strpos($_SERVER['REQUEST_URI'], '/index.php/getCoupon') !== false && $_SERVER['REQUEST_METHOD'] == 'GET') {
     $usuarioEmpresa = $_GET['usuarioEmpresa'] ?? null;
@@ -376,6 +381,25 @@ if (strpos($_SERVER['REQUEST_URI'], '/index.php/getCoupon') !== false && $_SERVE
     echo json_encode($resultado);
     exit();
 }
+
+// Manejar solicitud para obtener categorías
+if (strpos($_SERVER['REQUEST_URI'], '/index.php/getCategories') !== false && $_SERVER['REQUEST_METHOD'] == 'GET') {
+    $idCategoria = $_GET['id'] ?? null;
+    $resultado = $couponService->getCategories($idCategoria);
+    echo json_encode($resultado);
+    exit();
+}
+
+// Manejar solicitud para obtener empresas
+if (strpos($_SERVER['REQUEST_URI'], '/index.php/getBusiness') !== false && $_SERVER['REQUEST_METHOD'] == 'GET') {
+    $usuarioEmpresa = $_GET['usuarioEmpresa'] ?? null;
+    $resultado = $empresaService->getBusiness($usuarioEmpresa);
+    echo json_encode($resultado);
+    exit();
+}
+    
+
+*/
 
 // Manejar solicitud para obtener cupones de usuario
 if (strpos($_SERVER['REQUEST_URI'], '/index.php/getUserCoupon') !== false && $_SERVER['REQUEST_METHOD'] == 'GET') {
@@ -429,21 +453,7 @@ if (strpos($_SERVER['REQUEST_URI'], '/index.php/getUserCoupon') !== false && $_S
     exit();
 }
 
-// Manejar solicitud para obtener categorías
-if (strpos($_SERVER['REQUEST_URI'], '/index.php/getCategories') !== false && $_SERVER['REQUEST_METHOD'] == 'GET') {
-    $idCategoria = $_GET['id'] ?? null;
-    $resultado = $couponService->getCategories($idCategoria);
-    echo json_encode($resultado);
-    exit();
-}
 
-// Manejar solicitud para obtener empresas
-if (strpos($_SERVER['REQUEST_URI'], '/index.php/getBusiness') !== false && $_SERVER['REQUEST_METHOD'] == 'GET') {
-    $usuarioEmpresa = $_GET['usuarioEmpresa'] ?? null;
-    $resultado = $empresaService->getBusiness($usuarioEmpresa);
-    echo json_encode($resultado);
-    exit();
-}
 
 
 
