@@ -1,7 +1,6 @@
 <?php
 include_once 'business/EmpresaManager.php';
 include_once 'business/CouponManager.php';
-include_once 'data/Database.php';
 
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: PUT, GET, POST, DELETE, OPTIONS");
