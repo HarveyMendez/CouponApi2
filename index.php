@@ -7,14 +7,14 @@ header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: PUT, GET, POST, DELETE, OPTIONS");
 header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept, Authorization");
 
-$empresaService = new EmpresaManager();
-$couponService = new CouponManager();
+$empresaManager = new EmpresaManager();
+$couponManager = new CouponManager();
 
 if ($_SERVER['REQUEST_URI'] == '/index.php/insertEmpresa' && $_SERVER['REQUEST_METHOD'] == 'POST') {
     $json = file_get_contents('php://input');
     $data = json_decode($json, true);
     
-    $resultado = $empresaService->insertEmpresa($data);
+    $resultado = $empresaManager->insertEmpresa($data);
     
     if (isset($resultado['error'])) {
         http_response_code(400);
@@ -39,7 +39,7 @@ if ($_SERVER['REQUEST_URI'] == '/index.php/newCoupon' && $_SERVER['REQUEST_METHO
     }
 
     // Llamar al método de la capa de negocio para agregar un nuevo cupón
-    $resultado = $couponService->agregarCupon($data);
+    $resultado = $couponManager->agregarCupon($data);
 
     echo json_encode($resultado);
     exit();
@@ -54,8 +54,8 @@ if ($_SERVER['REQUEST_URI'] == '/index.php/updateCupon' && $_SERVER['REQUEST_MET
         echo json_encode(['error' => 'Error en los datos JSON']);
         exit();
     }
-    
-    $resultado = $couponService->actualizarCupon($data);
+
+    $resultado = $couponManager->actualizarCupon($data);
 
     echo json_encode($resultado);
     exit();
@@ -65,22 +65,14 @@ if ($_SERVER['REQUEST_URI'] == '/index.php/changeStatusCupon' && $_SERVER['REQUE
     $json = file_get_contents('php://input');
     $data = json_decode($json, true);
 
-        
     if ($data === null) {
-        // Error al decodificar JSON
         http_response_code(400); 
         echo json_encode(['error' => 'Error en los datos JSON']);
         exit();
     }
 
-    $usuarioEmpresa = $data['nombre_usuario'];
-    $nombreCupon = $data['nombre'];
+    $resultado = $couponManager->cambiarEstadoCupon($data);
 
-    $query = "UPDATE Cupones 
-                SET estado = NOT estado 
-                WHERE nombre = '$nombreCupon' and usuarioEmpresa = '$usuarioEmpresa'";
-
-    $resultado = metodoPut($query);
     echo json_encode($resultado);
     exit();
 }
@@ -89,21 +81,14 @@ if ($_SERVER['REQUEST_URI'] == '/index.php/changeStatusBusiness' && $_SERVER['RE
     $json = file_get_contents('php://input');
     $data = json_decode($json, true);
 
-        
     if ($data === null) {
-        // Error al decodificar JSON
         http_response_code(400); 
         echo json_encode(['error' => 'Error en los datos JSON']);
         exit();
     }
 
-    $usuarioEmpresa = $data['nombre_usuario'];
+    $resultado = $empresaManager->cambiarEstadoEmpresa($data);
 
-    $query = "UPDATE Empresa 
-                SET estado = NOT estado 
-                WHERE nombre_usuario = '$usuarioEmpresa'";
-
-    $resultado = metodoPut($query);
     echo json_encode($resultado);
     exit();
 }
@@ -112,22 +97,14 @@ if ($_SERVER['REQUEST_URI'] == '/index.php/cuponPurchase' && $_SERVER['REQUEST_M
     $json = file_get_contents('php://input');
     $data = json_decode($json, true);
 
-        
     if ($data === null) {
-        // Error al decodificar JSON
         http_response_code(400); 
         echo json_encode(['error' => 'Error en los datos JSON']);
         exit();
     }
 
-    $codigo = $data['codigo'];
-    $cantidad = $data['cantidad'];
+    $resultado = $couponManager->comprarCupon($data);
 
-    $query = "UPDATE Cupones 
-                SET cantidad = cantidad-$cantidad 
-                WHERE codigo = '$codigo'";
-
-    $resultado = metodoPut($query);
     echo json_encode($resultado);
     exit();
 }
@@ -136,35 +113,14 @@ if ($_SERVER['REQUEST_URI'] == '/index.php/updateBusiness' && $_SERVER['REQUEST_
     $json = file_get_contents('php://input');
     $data = json_decode($json, true);
 
-        
     if ($data === null) {
-        // Error al decodificar JSON
         http_response_code(400); 
         echo json_encode(['error' => 'Error en los datos JSON']);
         exit();
     }
-    
-    $nombre_usuario = $data['nombre_usuario'];
-    $nombre_empresa = $data['nombre_empresa'];
-    $direccion_fisica = $data['direccion_fisica'];
-    $cedula = $data['cedula'];
-    $correo_electronico = $data['correo_electronico'];
-    $telefono = $data['telefono'];
-    $ubicacion = $data['ubicacion'];
 
+    $resultado = $empresaManager->actualizarEmpresa($data);
 
-    //validar antes de hacer la consulta
-
-    $query = "UPDATE Empresa 
-                SET nombre_empresa = '$nombre_empresa', 
-                    direccion_fisica = '$direccion_fisica', 
-                    cedula = '$cedula', 
-                    correo_electronico = '$correo_electronico', 
-                    telefono = '$telefono', 
-                    ubicacion = '$ubicacion'
-                WHERE nombre_usuario = '$nombre_usuario'";
-
-    $resultado = metodoPut($query);
     echo json_encode($resultado);
     exit();
 }
@@ -172,34 +128,16 @@ if ($_SERVER['REQUEST_URI'] == '/index.php/updateBusiness' && $_SERVER['REQUEST_
 if ($_SERVER['REQUEST_URI'] == '/index.php/changePassword' && $_SERVER['REQUEST_METHOD'] == 'POST') {
     $json = file_get_contents('php://input');
     $data = json_decode($json, true);
+
     if ($data === null) {
-        // Error al decodificar JSON
         http_response_code(400); 
         echo json_encode(['error' => 'Error en los datos JSON']);
         exit();
     }
 
-    $usernameBusiness = $data['username']; 
-    $newPasswordBusiness = $data['password'];
+    $resultado = $empresaManager->cambiarContrasena($data);
 
-    $query1 = "UPDATE Empresa 
-                SET contrasena = '$newPasswordBusiness'
-                WHERE nombre_usuario = '$usernameBusiness'";
-
-    $query2 = "UPDATE Claves 
-                SET userEmpresa = NULL 
-                WHERE userEmpresa = '$usernameBusiness'";
-
-    $resultado1 = metodoGet($query1);
-
-    $resultado2 = metodoGet($query2);
-
-        if ($resultado1 === false || $resultado2 === false) {
-            echo json_encode(['nombre_usuario' => '', 'contrasenna' => '']);
-        } else {
-            echo json_encode(['message' => 'Contraseña actualizada y usuario desvinculado correctamente']);
-        }
-
+    echo json_encode($resultado);
     exit();
 }
 
@@ -213,50 +151,9 @@ if ($_SERVER['REQUEST_URI'] == '/index.php/generateToken' && $_SERVER['REQUEST_M
         exit();
     }
 
-    $nombre_usuario = $data['nombre_usuario']; 
+    $resultado = $empresaManager->generateToken($data);
 
-
-    $query0 = "SELECT claveTemp from Claves 
-                WHERE userEmpresa = '$nombre_usuario'";
-
-    $resultado0 = metodoGet($query0);
-
-    if ($resultado0 && $resultado0->rowCount() > 0) {
-        echo json_encode($resultado0->fetchAll());
-        exit();
-    }
-
-    
-    $query1 = "SELECT id FROM Claves WHERE userEmpresa IS NULL ORDER BY RAND() LIMIT 1;";
-    $resultado1 = metodoGet($query1);
-    
-    
-    if (!$resultado1) {
-        echo json_encode(['error' => 'Error al obtener el id aleatorio']);
-        exit();
-    }
-
-    
-    $row = $resultado1->fetch(PDO::FETCH_ASSOC);
-    $id_aleatorio = $row['id'];
-
-   
-    $query2 = "UPDATE Claves 
-                SET userEmpresa = '$nombre_usuario'
-                WHERE id = '$id_aleatorio'";
-    $resultado2 = metodoPut($query2);
-
-    $query3 = "SELECT claveTemp FROM Claves
-                    WHERE userEmpresa = '$nombre_usuario'";
-
-    $resultado3 = metodoGet($query3);
-
-    
-    if ($resultado3) {
-        echo json_encode($resultado3->fetchAll());
-    } else {
-        echo json_encode(['error' => 'Error al asignar el nombre de usuario al token']);
-    }
+    echo json_encode($resultado);
     exit();
 }
 

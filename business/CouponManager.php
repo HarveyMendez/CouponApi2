@@ -123,4 +123,28 @@ class CouponManager {
         return metodoPut($query);
     }
 
+    public function cambiarEstadoCupon($data) {
+        // Validar y manipular los datos si es necesario
+        $usuarioEmpresa = $data['nombre_usuario'];
+        $nombreCupon = $data['nombre'];
+
+        $query = "UPDATE Cupones 
+                    SET estado = NOT estado 
+                    WHERE nombre = '$nombreCupon' and usuarioEmpresa = '$usuarioEmpresa'";
+
+        return metodoPut($query);
+    }
+
+    public function comprarCupon($data) {
+        // Validar y manipular los datos si es necesario
+        $codigo = $data['codigo'];
+        $cantidad = $data['cantidad'];
+
+        $query = "UPDATE Cupones 
+                    SET cantidad = cantidad - $cantidad 
+                    WHERE codigo = '$codigo'";
+
+        return metodoPut($query);
+    }
+
 }
