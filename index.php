@@ -170,56 +170,20 @@ if ($_SERVER['REQUEST_URI'] == '/index.php/businessLogin' && $_SERVER['REQUEST_M
             exit();
         }
 
-        $usernameBusiness = $data['username']; 
-        $passwordBusiness = $data['password']; 
+        $resultado = $empresaManager->businessLogin($data);
 
-        
+        echo json_encode($resultado);
 
-        $query = "SELECT
-                    CASE
-                        WHEN e.estado = false THEN NULL
-                        ELSE e.nombre_usuario
-                    END AS nombre_usuario,
-                    CASE
-                        WHEN e.estado = false THEN NULL
-                        ELSE 
-                            CASE
-                                WHEN c.claveTemp = '$passwordBusiness' THEN c.claveTemp
-                                WHEN e.contrasena = '$passwordBusiness' THEN e.contrasena
-                                ELSE NULL
-                            END
-                    END AS contrasena,
-                    CASE
-                        WHEN e.estado = false THEN false
-                        ELSE
-                            CASE
-                                WHEN c.claveTemp = '$passwordBusiness' THEN true
-                                ELSE false
-                            END
-                    END AS token,
-                    e.estado
-                FROM (
-                    SELECT nombre_usuario, contrasena, estado
-                    FROM Empresa
-                    WHERE nombre_usuario = '$usernameBusiness'
-                ) AS e
-                LEFT JOIN Claves c ON c.userEmpresa = e.nombre_usuario;";
-
-        
-
-        $resultado = metodoGet($query);
-
-        if ($resultado === false) {
-            echo json_encode(['nombre_usuario' => '', 'contrasenna' => '']);
-        } else {
-            echo json_encode($resultado->fetch(PDO::FETCH_ASSOC));
-        }
-
-        //
         exit();
+}   
+
+if (strpos($_SERVER['REQUEST_URI'], '/index.php/getUserCoupon') !== false && $_SERVER['REQUEST_METHOD'] == 'GET') {
+    $id = $_GET['id'] ?? null;
+    $resultado = $couponManager->getUserCoupon($id);
+    echo json_encode($resultado);
+    exit();
 }
 
-// Manejar solicitud para obtener categorías
 if (strpos($_SERVER['REQUEST_URI'], '/index.php/getCategories') !== false && $_SERVER['REQUEST_METHOD'] == 'GET') {
     $idCategoria = $_GET['id'] ?? null;
     $resultado = $couponManager->getCategories($idCategoria);
@@ -227,7 +191,6 @@ if (strpos($_SERVER['REQUEST_URI'], '/index.php/getCategories') !== false && $_S
     exit();
 }
 
-// Manejar solicitud para obtener empresas
 if (strpos($_SERVER['REQUEST_URI'], '/index.php/getBusiness') !== false && $_SERVER['REQUEST_METHOD'] == 'GET') {
     $usuarioEmpresa = $_GET['usuarioEmpresa'] ?? null;
     $resultado = $empresaManager->getBusiness($usuarioEmpresa);
@@ -235,67 +198,12 @@ if (strpos($_SERVER['REQUEST_URI'], '/index.php/getBusiness') !== false && $_SER
     exit();
 }
 
-// Manejar solicitud para obtener cupones
 if (strpos($_SERVER['REQUEST_URI'], '/index.php/getCoupon') !== false && $_SERVER['REQUEST_METHOD'] == 'GET') {
     $usuarioEmpresa = $_GET['usuarioEmpresa'] ?? null;
     $resultado = $couponManager->getCoupon($usuarioEmpresa);
     echo json_encode($resultado);
     exit();
 }
-    
-
-if (strpos($_SERVER['REQUEST_URI'], '/index.php/getUserCoupon') !== false && $_SERVER['REQUEST_METHOD'] == 'GET') {
-    if (isset($_GET['id'])) {
-        $id = $_GET['id'];
-        $query = "SELECT 
-                    c.id,
-                    e.nombre_empresa,
-                    e.ubicacion AS ubicacion_empresa,
-                    c.nombre AS nombre_cupon,
-                    c.cantidad,
-                    c.precio,
-                    c.codigo,
-                    c.descuento,
-                    c.fecha_vencimiento,
-                    cat.nombreCategoria AS categoria,
-                    c.image
-                FROM 
-                    Empresa e
-                JOIN 
-                    Cupones c ON e.nombre_usuario = c.usuarioEmpresa
-                JOIN 
-                    Categorias cat ON c.categoria = cat.id
-                    WHERE c.estado=true and c.id = '$id'";
-    $resultado = metodoGet($query);
-    echo json_encode($resultado->fetchAll());
-    } else {
-        $query = "SELECT 
-                    c.id,
-                    e.nombre_empresa,
-                    e.ubicacion AS ubicacion_empresa,
-                    c.nombre AS nombre_cupon,
-                    c.cantidad,
-                    c.precio,
-                    c.codigo,
-                    c.descuento,
-                    c.fecha_vencimiento,
-                    cat.nombreCategoria AS categoria,
-                    c.image
-                FROM 
-                    Empresa e
-                JOIN 
-                    Cupones c ON e.nombre_usuario = c.usuarioEmpresa
-                JOIN 
-                    Categorias cat ON c.categoria = cat.id
-                    WHERE c.estado=true";
-    $resultado = metodoGet($query);
-    echo json_encode($resultado->fetchAll());
-
-    }
-    exit();
-}
-
-
 
 
 

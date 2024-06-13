@@ -143,4 +143,50 @@ class EmpresaManager {
     }
     }
 
+    public function businessLogin($data) {
+
+        $usernameBusiness = $data['username']; 
+        $passwordBusiness = $data['password']; 
+
+        $query = "SELECT
+                    CASE
+                        WHEN e.estado = false THEN NULL
+                        ELSE e.nombre_usuario
+                    END AS nombre_usuario,
+                    CASE
+                        WHEN e.estado = false THEN NULL
+                        ELSE 
+                            CASE
+                                WHEN c.claveTemp = '$passwordBusiness' THEN c.claveTemp
+                                WHEN e.contrasena = '$passwordBusiness' THEN e.contrasena
+                                ELSE NULL
+                            END
+                    END AS contrasena,
+                    CASE
+                        WHEN e.estado = false THEN false
+                        ELSE
+                            CASE
+                                WHEN c.claveTemp = '$passwordBusiness' THEN true
+                                ELSE false
+                            END
+                    END AS token,
+                    e.estado
+                FROM (
+                    SELECT nombre_usuario, contrasena, estado
+                    FROM Empresa
+                    WHERE nombre_usuario = '$usernameBusiness'
+                ) AS e
+                LEFT JOIN Claves c ON c.userEmpresa = e.nombre_usuario;";
+
+        
+
+        $resultado = metodoGet($query);
+
+        if ($resultado === false) {
+            return ['nombre_usuario' => '', 'contrasenna' => ''];
+        } else {
+            return $resultado->fetch(PDO::FETCH_ASSOC);
+        }
+    }
+
 }
