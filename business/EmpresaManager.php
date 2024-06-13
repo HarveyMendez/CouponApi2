@@ -136,8 +136,8 @@ class EmpresaManager {
 
     
     
-    if ($token) {
-        return $token;
+    if ($array) {
+        return $array;
     } else {
         return ['error' => 'Error al asignar el nombre de usuario al token'];
     }
