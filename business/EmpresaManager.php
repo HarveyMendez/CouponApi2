@@ -125,7 +125,8 @@ class EmpresaManager {
                     WHERE userEmpresa = '$nombre_usuario'";
 
     $resultado3 = metodoGet($query3);
-    $token = $resultado3->fetchAll();
+    $array = $resultado3->fetchAll(PDO::FETCH_ASSOC);
+    $token = $array[0]['claveTemp'];
 
     $query4 = "UPDATE Empresa 
                     SET contrasena = '$token'
