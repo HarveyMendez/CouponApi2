@@ -125,17 +125,17 @@ class EmpresaManager {
                     WHERE userEmpresa = '$nombre_usuario'";
 
     $resultado3 = metodoGet($query3);
-    $resultado3->fetchAll();
+    $token = $resultado3->fetchAll();
 
     $query4 = "UPDATE Empresa 
-                    SET contrasena = '$resultado3'
+                    SET contrasena = '$token'
                     WHERE nombre_usuario = '$nombre_usuario'";
 
     $resultado4 = metodoPut($query4);  
 
     
     
-    if ($resultado3) {
+    if ($resultado4) {
         return $resultado3;
     } else {
         return ['error' => 'Error al asignar el nombre de usuario al token'];
